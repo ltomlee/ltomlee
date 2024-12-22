@@ -12,6 +12,8 @@ Dalton Is Cool
 ============
 
 Here's a list
+
 - point 1
 - thing
 - lauren wuz here
+
