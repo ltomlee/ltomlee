@@ -1,5 +1,6 @@
 ---
 title: "Command Line Awesomeness"
+draft: true
 date: '2012-03-12'
 categories:
   - Blog
