@@ -2,3 +2,6 @@ baseURL: https://ltomlee.com/
 languageCode: en-us
 title: My New Hugo Site
 theme: ["PaperMod"]
+
+params:
+  defaultTheme: auto
