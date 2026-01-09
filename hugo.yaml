@@ -1,7 +1,0 @@
-baseURL: https://ltomlee.com/
-languageCode: en-us
-title: LAURENS LAIR
-theme: ["PaperMod"]
-
-params:
-  defaultTheme: auto
