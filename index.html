@@ -78,6 +78,22 @@
             letter-spacing: 2px;
         }
 
+        /* Responsive adjustments for the main title */
+@media (max-width: 768px) {
+    h1 {
+        font-size: 2.5em; /* Shrinks the size for tablets */
+        letter-spacing: 1px;
+    }
+}
+
+@media (max-width: 480px) {
+    h1 {
+        font-size: 1.8em; /* Shrinks it further for small phones */
+        letter-spacing: 0.5px;
+        word-break: break-word; /* Prevents the text from pushing past the screen edge */
+    }
+}
+
         .tagline { color: #88cc88; font-size: 1.2em; margin-bottom: 30px; }
 
         .social-links { display: flex; gap: 15px; justify-content: center; flex-wrap: wrap; }
