@@ -4,23 +4,27 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Laurenipsum - DJ & Producer & Painter</title>
-    <style>
-    @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&display=swap');
 
-    * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-    }
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        /* Tip C: Removed @import from here to prevent render-blocking */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
         body {
-    font-family: 'Cinzel', serif;
-    background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 50%, #050505 100%);
-    color: #e0ffe0;
-    min-height: 100vh;
-    position: relative;
-    overflow-x: hidden;
-}
+            font-family: 'Cinzel', serif;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 50%, #050505 100%);
+            color: #e0ffe0;
+            min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
+        }
 
         /* Animated background orbs */
         .orb {
@@ -33,32 +37,9 @@
             z-index: 0;
         }
 
-        .orb1 {
-            width: 400px;
-            height: 400px;
-            background: linear-gradient(45deg, #00ff88, #00cc66);
-            top: -100px;
-            left: -100px;
-            animation-delay: 0s;
-        }
-
-        .orb2 {
-            width: 350px;
-            height: 350px;
-            background: linear-gradient(45deg, #66ff99, #00ff88);
-            bottom: -100px;
-            right: -100px;
-            animation-delay: 5s;
-        }
-
-        .orb3 {
-            width: 300px;
-            height: 300px;
-            background: linear-gradient(45deg, #00ffaa, #00ff88);
-            top: 50%;
-            right: 10%;
-            animation-delay: 10s;
-        }
+        .orb1 { width: 400px; height: 400px; background: linear-gradient(45deg, #00ff88, #00cc66); top: -100px; left: -100px; animation-delay: 0s; }
+        .orb2 { width: 350px; height: 350px; background: linear-gradient(45deg, #66ff99, #00ff88); bottom: -100px; right: -100px; animation-delay: 5s; }
+        .orb3 { width: 300px; height: 300px; background: linear-gradient(45deg, #00ffaa, #00ff88); top: 50%; right: 10%; animation-delay: 10s; }
 
         @keyframes float {
             0%, 100% { transform: translate(0, 0) scale(1); }
@@ -86,13 +67,6 @@
             box-shadow: 0 8px 32px rgba(0, 255, 136, 0.2);
         }
 
-        @media (max-width: 768px) {
-            header {
-                padding: 40px 15px 30px;
-                border-radius: 20px;
-            }
-        }
-
         h1 {
             font-size: 3.5em;
             background: linear-gradient(135deg, #00ff88, #66ff99, #00ffaa);
@@ -104,38 +78,9 @@
             letter-spacing: 2px;
         }
 
-        @media (max-width: 768px) {
-            h1 {
-                font-size: 2.5em;
-                letter-spacing: 1px;
-            }
-        }
+        .tagline { color: #88cc88; font-size: 1.2em; margin-bottom: 30px; }
 
-        @media (max-width: 480px) {
-            h1 {
-                font-size: 2em;
-                letter-spacing: 0.5px;
-            }
-        }
-
-        .tagline {
-            color: #88cc88;
-            font-size: 1.2em;
-            margin-bottom: 30px;
-        }
-
-        @media (max-width: 768px) {
-            .tagline {
-                font-size: 1em;
-            }
-        }
-
-        .social-links {
-            display: flex;
-            gap: 15px;
-            justify-content: center;
-            flex-wrap: wrap;
-        }
+        .social-links { display: flex; gap: 15px; justify-content: center; flex-wrap: wrap; }
 
         .social-btn {
             padding: 12px 24px;
@@ -156,29 +101,11 @@
             box-shadow: 0 10px 30px rgba(0, 255, 136, 0.4);
         }
 
-        .donation-btn {
-            border-color: rgba(102, 255, 153, 0.3);
-            color: #66ff99;
-        }
+        .donation-btn { border-color: rgba(102, 255, 153, 0.3); color: #66ff99; }
 
-        .donation-btn:hover {
-            background: rgba(102, 255, 153, 0.2);
-            border-color: #66ff99;
-            box-shadow: 0 10px 30px rgba(102, 255, 153, 0.4);
-        }
+        .content-grid { display: grid; grid-template-columns: 2fr 1fr; gap: 30px; margin-bottom: 40px; }
 
-        .content-grid {
-            display: grid;
-            grid-template-columns: 2fr 1fr;
-            gap: 30px;
-            margin-bottom: 40px;
-        }
-
-        @media (max-width: 968px) {
-            .content-grid {
-                grid-template-columns: 1fr;
-            }
-        }
+        @media (max-width: 968px) { .content-grid { grid-template-columns: 1fr; } }
 
         .blog-section, .sidebar {
             background: rgba(0, 0, 0, 0.6);
@@ -188,14 +115,7 @@
             border: 1px solid rgba(0, 255, 136, 0.2);
         }
 
-        .section-title {
-            font-size: 1.8em;
-            color: #00ff88;
-            margin-bottom: 20px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
+        .section-title { font-size: 1.8em; color: #00ff88; margin-bottom: 20px; display: flex; align-items: center; gap: 10px; }
 
         .post {
             background: rgba(0, 0, 0, 0.4);
@@ -203,65 +123,6 @@
             border-radius: 15px;
             padding: 20px;
             margin-bottom: 20px;
-            transition: all 0.3s ease;
-        }
-
-        .post:hover {
-            background: rgba(0, 0, 0, 0.5);
-            border-color: rgba(0, 255, 136, 0.4);
-            transform: translateX(5px);
-        }
-
-        .post-date {
-            color: #557755;
-            font-size: 0.9em;
-            margin-bottom: 8px;
-        }
-
-        .post-content {
-            color: #c0e0c0;
-            line-height: 1.6;
-            white-space: pre-wrap;
-        }
-
-        .playlist-card {
-            background: rgba(0, 0, 0, 0.4);
-            border: 1px solid rgba(0, 255, 136, 0.3);
-            border-radius: 15px;
-            padding: 15px;
-            margin-bottom: 15px;
-            transition: all 0.3s ease;
-            cursor: pointer;
-        }
-
-        .playlist-card:hover {
-            background: rgba(0, 255, 136, 0.1);
-            border-color: #00ff88;
-            transform: scale(1.02);
-        }
-
-        .playlist-title {
-            color: #00ff88;
-            font-weight: 600;
-            margin-bottom: 5px;
-        }
-
-        .playlist-info {
-            color: #88cc88;
-            font-size: 0.9em;
-        }
-
-        .music-embed {
-            margin-bottom: 20px;
-            border-radius: 15px;
-            overflow: hidden;
-            border: 1px solid rgba(0, 255, 136, 0.2);
-        }
-
-        .empty-state {
-            text-align: center;
-            padding: 40px;
-            color: #557755;
         }
 
         .gallery-grid {
@@ -276,38 +137,13 @@
             border: 1px solid rgba(0, 255, 136, 0.2);
             border-radius: 15px;
             overflow: hidden;
-            transition: all 0.3s ease;
             cursor: pointer;
-            position: relative;
+            transition: transform 0.3s ease;
         }
 
-        .painting-card:hover {
-            transform: translateY(-5px);
-            border-color: rgba(0, 255, 136, 0.5);
-            box-shadow: 0 10px 40px rgba(0, 255, 136, 0.3);
-        }
-
-        .painting-img {
-            width: 100%;
-            height: 250px;
-            object-fit: cover;
-            display: block;
-        }
-
-        .painting-info {
-            padding: 15px;
-        }
-
-        .painting-title {
-            color: #00ff88;
-            font-weight: 600;
-            margin-bottom: 5px;
-        }
-
-        .painting-date {
-            color: #557755;
-            font-size: 0.85em;
-        }
+        .painting-card:hover { transform: translateY(-5px); }
+        .painting-img { width: 100%; height: 250px; object-fit: cover; }
+        .painting-info { padding: 15px; }
 
         .music-library {
             background: rgba(0, 0, 0, 0.6);
@@ -325,35 +161,8 @@
             padding: 15px;
             margin-bottom: 12px;
             display: flex;
-            align-items: center;
             justify-content: space-between;
-            transition: all 0.3s ease;
-        }
-
-        .track-item:hover {
-            background: rgba(0, 255, 136, 0.1);
-            border-color: #00ff88;
-            transform: translateX(5px);
-        }
-
-        .track-info {
-            flex: 1;
-        }
-
-        .track-name {
-            color: #00ff88;
-            font-weight: 600;
-            margin-bottom: 5px;
-        }
-
-        .track-meta {
-            color: #557755;
-            font-size: 0.85em;
-        }
-
-        .track-actions {
-            display: flex;
-            gap: 10px;
+            align-items: center;
         }
 
         .action-btn {
@@ -362,24 +171,13 @@
             border: 1px solid rgba(0, 255, 136, 0.3);
             border-radius: 8px;
             color: #c0e0c0;
-            cursor: pointer;
-            transition: all 0.3s ease;
             text-decoration: none;
-        }
-
-        .action-btn:hover {
-            background: rgba(0, 255, 136, 0.1);
-            border-color: #00ff88;
-            color: #00ff88;
         }
 
         .modal {
             display: none;
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+            top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(0, 0, 0, 0.9);
             z-index: 1000;
             justify-content: center;
@@ -387,49 +185,11 @@
             backdrop-filter: blur(10px);
         }
 
-        .modal.active {
-            display: flex;
-        }
-
-        .modal-content {
-            max-width: 90%;
-            max-height: 90%;
-            position: relative;
-        }
-
-        .modal-img {
-            max-width: 100%;
-            max-height: 90vh;
-            border-radius: 15px;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
-        }
-
-        .modal-close {
-            position: absolute;
-            top: -40px;
-            right: 0;
-            background: rgba(0, 0, 0, 0.8);
-            color: #00ff88;
-            border: 1px solid #00ff88;
-            padding: 10px 20px;
-            border-radius: 10px;
-            cursor: pointer;
-            font-size: 1.2em;
-        }
-
-        .modal-close:hover {
-            background: rgba(0, 255, 136, 0.2);
-        }
-
-        .section-divider {
-            margin: 60px 0;
-        }
-
-        .loading {
-            text-align: center;
-            padding: 20px;
-            color: #88cc88;
-        }
+        .modal.active { display: flex; }
+        .modal-img { max-width: 90%; max-height: 80vh; border-radius: 15px; }
+        .modal-close { position: absolute; top: 20px; right: 20px; background: #000; color: #00ff88; border: 1px solid #00ff88; padding: 10px 20px; cursor: pointer; }
+        .section-divider { margin: 60px 0; border: none; height: 1px; background: rgba(0,255,136,0.1); }
+        .loading { text-align: center; color: #88cc88; padding: 20px; }
     </style>
 </head>
 <body>
@@ -442,40 +202,25 @@
             <h1>Ⳑⲁⳙⲅⲉⲛⳕⳏ⳽ⳙⲙ</h1>
             <p class="tagline">DJ • Producer • Painter</p>
             <div class="social-links">
-                <a href="https://soundcloud.com/dolaurenipsum" class="social-btn" target="_blank">🎵 SoundCloud</a>
-                <a href="https://www.youtube.com/@painitself" class="social-btn" target="_blank">📺 YouTube</a>
-                <a href="https://www.instagram.com/laurenipsumdj/" class="social-btn" target="_blank">📷 Instagram</a>
-                <a href="https://www.twitch.tv/ltomlee" class="social-btn" target="_blank">🎮 Twitch</a>
-                <a href="https://streamlabs.com/ltomlee/tip" class="social-btn donation-btn" target="_blank">💝 Support Me</a>
+                <a href="https://soundcloud.com/dolaurenipsum" class="social-btn" target="_blank" rel="noopener noreferrer">🎵 SoundCloud</a>
+                <a href="https://www.youtube.com/@painitself" class="social-btn" target="_blank" rel="noopener noreferrer">📺 YouTube</a>
+                <a href="https://www.instagram.com/laurenipsumdj/" class="social-btn" target="_blank" rel="noopener noreferrer">📷 Instagram</a>
+                <a href="https://www.twitch.tv/ltomlee" class="social-btn" target="_blank" rel="noopener noreferrer">🎮 Twitch</a>
+                <a href="https://streamlabs.com/ltomlee/tip" class="social-btn donation-btn" target="_blank" rel="noopener noreferrer">💝 Support Me</a>
             </div>
         </header>
 
         <div class="content-grid">
-            <div class="blog-section" style="display: none;">
-    <h2 class="section-title">📝 Daily Thoughts</h2>
-    
-    <div id="postsContainer">
-        <div class="loading">Loading posts...</div>
-    </div>
-</div>
+            <div class="blog-section" style="display: block;">
+                <h2 class="section-title">📝 Daily Thoughts</h2>
+                <div id="postsContainer"><div class="loading">Loading posts...</div></div>
+            </div>
 
             <div class="sidebar">
-                <h2 class="section-title" style="margin-top: 30px;">🎶 Spotify Playlists</h2>
-
-<div class="playlist-card" onclick="window.open('https://open.spotify.com/playlist/1E85PFlX96y0tgmXtnHAoG', '_blank')">
-    <div class="playlist-title">EH 🗣️</div>
-    <div class="playlist-info">Tap to open on Spotify</div>
-</div>
-
-<div class="playlist-card" onclick="window.open('https://open.spotify.com/playlist/4nBpACVHwLCHpe6UWx5eQc', '_blank')">
-    <div class="playlist-title">Treesnstuff💚🌎🌳🌱</div>
-    <div class="playlist-info">Tap to open on Spotify</div>
-</div>
-
-<div class="playlist-card" onclick="window.open('https://open.spotify.com/playlist/6Wjdz810xCPkNLbaA9Gvrh?si=3e90f39f3b9345a7', '_blank')">
-    <div class="playlist-title">brainstimuli</div>
-    <div class="playlist-info">Tap to open on Spotify</div>
-</div>
+                <h2 class="section-title">Playlists</h2>
+                <iframe style="border-radius:12px; margin-bottom: 20px;" src="https://open.spotify.com/embed/playlist/1E85PFlX96y0tgmXtnHAoG?utm_source=generator" width="100%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+                <iframe style="border-radius:12px; margin-bottom: 20px;" src="https://open.spotify.com/embed/playlist/4nBpACVHwLCHpe6UWx5eQc?utm_source=generator" width="100%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+                <iframe style="border-radius:12px; margin-bottom: 20px;" src="https://open.spotify.com/embed/playlist/6Wjdz810xCPkNLbaA9Gvrh?utm_source=generator" width="100%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
             </div>
         </div>
 
@@ -483,138 +228,70 @@
 
         <div class="music-library">
             <h2 class="section-title">🎵 Music Production Library</h2>
-            
-            <div id="tracksContainer">
-                <div class="loading">Loading tracks...</div>
-            </div>
+            <div id="tracksContainer"><div class="loading">Loading tracks...</div></div>
         </div>
 
         <div class="section-divider"></div>
 
         <div class="music-library">
             <h2 class="section-title">🎨 Art Gallery</h2>
-            
-            <div class="gallery-grid" id="galleryContainer">
-                <div class="loading" style="grid-column: 1/-1;">Loading gallery...</div>
-            </div>
+            <div class="gallery-grid" id="galleryContainer"><div class="loading" style="grid-column: 1/-1;">Loading gallery...</div></div>
         </div>
     </div>
 
-    <div class="modal" id="imageModal">
-        <div class="modal-content">
-            <button class="modal-close" onclick="closeModal()">✕ Close</button>
-            <img class="modal-img" id="modalImage" src="" alt="Painting">
-        </div>
+    <div class="modal" id="imageModal" onclick="closeModal()">
+        <button class="modal-close">✕ Close</button>
+        <img class="modal-img" id="modalImage" src="" alt="Painting">
     </div>
 
     <script>
-        // Load blog posts from JSON
-        async function loadPosts() {
+        // Data Loading Logic
+        async function fetchData(file, containerId, renderFn) {
             try {
-                const response = await fetch('data/posts.json');
-                const posts = await response.json();
-                renderPosts(posts);
-            } catch (error) {
-                document.getElementById('postsContainer').innerHTML = 
-                    '<div class="empty-state"><p>No posts yet. Check back soon!</p></div>';
+                const response = await fetch(`data/${file}`);
+                const data = await response.json();
+                renderFn(data, containerId);
+            } catch (e) {
+                document.getElementById(containerId).innerHTML = '<div class="empty-state">Content coming soon!</div>';
             }
         }
 
-        function renderPosts(posts) {
-            const container = document.getElementById('postsContainer');
-            
-            if (!posts || posts.length === 0) {
-                container.innerHTML = '<div class="empty-state"><p>No posts yet. Check back soon!</p></div>';
-                return;
-            }
-            
-            // Sort by date, newest first
+        function renderPosts(posts, id) {
+            const container = document.getElementById(id);
             posts.sort((a, b) => new Date(b.date) - new Date(a.date));
-            
-            container.innerHTML = posts.map(post => `
+            container.innerHTML = posts.map(p => `
                 <div class="post">
-                    <div class="post-date">${new Date(post.date).toLocaleDateString('en-US', { 
-                        year: 'numeric', 
-                        month: 'long', 
-                        day: 'numeric' 
-                    })}</div>
-                    <div class="post-content">${post.content}</div>
-                </div>
-            `).join('');
+                    <div class="post-date">${new Date(p.date).toLocaleDateString()}</div>
+                    <div class="post-content">${p.content}</div>
+                </div>`).join('');
         }
 
-        // Load paintings from JSON
-        async function loadPaintings() {
-            try {
-                const response = await fetch('data/paintings.json');
-                const paintings = await response.json();
-                renderPaintings(paintings);
-            } catch (error) {
-                document.getElementById('galleryContainer').innerHTML = 
-                    '<div class="empty-state" style="grid-column: 1/-1;"><p>No paintings yet. Check back soon!</p></div>';
-            }
-        }
-
-        function renderPaintings(paintings) {
-            const container = document.getElementById('galleryContainer');
-            
-            if (!paintings || paintings.length === 0) {
-                container.innerHTML = '<div class="empty-state" style="grid-column: 1/-1;"><p>No paintings yet. Check back soon!</p></div>';
-                return;
-            }
-            
-            // Sort by date, newest first
-            paintings.sort((a, b) => new Date(b.date) - new Date(a.date));
-            
-            container.innerHTML = paintings.map(painting => `
-                <div class="painting-card" onclick="openModal('${painting.image}')">
-                    <img src="${painting.image}" alt="${painting.title}" class="painting-img">
+        function renderPaintings(paintings, id) {
+            const container = document.getElementById(id);
+            container.innerHTML = paintings.map(p => `
+                <div class="painting-card" onclick="openModal('${p.image}')">
+                    <img src="${p.image}" class="painting-img" alt="${p.title}">
                     <div class="painting-info">
-                        <div class="painting-title">${painting.title}</div>
-                        <div class="painting-date">${new Date(painting.date).toLocaleDateString()}</div>
+                        <div class="painting-title">${p.title}</div>
+                        <div class="painting-date">${p.date}</div>
                     </div>
-                </div>
-            `).join('');
+                </div>`).join('');
         }
 
-        // Load music tracks from JSON
-        async function loadTracks() {
-            try {
-                const response = await fetch('data/tracks.json');
-                const tracks = await response.json();
-                renderTracks(tracks);
-            } catch (error) {
-                document.getElementById('tracksContainer').innerHTML = 
-                    '<div class="empty-state"><p>No tracks yet. Check back soon!</p></div>';
-            }
-        }
-
-        function renderTracks(tracks) {
-            const container = document.getElementById('tracksContainer');
-            
-            if (!tracks || tracks.length === 0) {
-                container.innerHTML = '<div class="empty-state"><p>No tracks yet. Check back soon!</p></div>';
-                return;
-            }
-            
-            // Sort by date, newest first
-            tracks.sort((a, b) => new Date(b.date) - new Date(a.date));
-            
-            container.innerHTML = tracks.map(track => `
+        function renderTracks(tracks, id) {
+            const container = document.getElementById(id);
+            container.innerHTML = tracks.map(t => `
                 <div class="track-item">
-                    <div class="track-info">
-                        <div class="track-name">${track.name}</div>
-                        <div class="track-meta">${track.size} • ${new Date(track.date).toLocaleDateString()}</div>
+                    <div>
+                        <div class="track-name">${t.name}</div>
+                        <div class="track-meta">${t.size} • ${t.date}</div>
                     </div>
-                    <div class="track-actions">
-                        <a href="${track.downloadUrl}" class="action-btn" download>⬇️ Download</a>
-                    </div>
-                </div>
-            `).join('');
+                    <a href="${t.downloadUrl}" class="action-btn" download>⬇️ Download</a>
+                </div>`).join('');
         }
 
-        function openModal(imageSrc) {
-            document.getElementById('modalImage').src = imageSrc;
+        function openModal(src) {
+            document.getElementById('modalImage').src = src;
             document.getElementById('imageModal').classList.add('active');
         }
 
@@ -622,17 +299,10 @@
             document.getElementById('imageModal').classList.remove('active');
         }
 
-        // Close modal when clicking outside
-        document.getElementById('imageModal').addEventListener('click', function(e) {
-            if (e.target === this) {
-                closeModal();
-            }
-        });
-
-        // Load all content on page load
-        loadPosts();
-        loadPaintings();
-        loadTracks();
+        // Init
+        fetchData('posts.json', 'postsContainer', renderPosts);
+        fetchData('paintings.json', 'galleryContainer', renderPaintings);
+        fetchData('tracks.json', 'tracksContainer', renderTracks);
     </script>
 </body>
 </html>
