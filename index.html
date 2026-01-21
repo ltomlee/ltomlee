@@ -68,15 +68,27 @@
         }
 
         h1 {
-            font-size: 3.5em;
-            background: linear-gradient(135deg, #00ff88, #66ff99, #00ffaa);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            margin-bottom: 10px;
-            text-shadow: 0 0 40px rgba(0, 255, 136, 0.3);
-            letter-spacing: 2px;
-        }
+    font-size: 3.5em;
+    background: linear-gradient(135deg, #00ff88, #66ff99, #00ffaa);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 10px;
+    text-shadow: 0 0 40px rgba(0, 255, 136, 0.3);
+    letter-spacing: 2px;
+    animation: glow 4s ease-in-out infinite;
+}
+
+@keyframes glow {
+    0%, 100% {
+        text-shadow: 0 0 40px rgba(0, 255, 136, 0.3);
+        transform: scale(1);
+    }
+    50% {
+        text-shadow: 0 0 80px rgba(0, 255, 136, 0.7);
+        transform: scale(1.03);
+    }
+}
 
         /* Responsive adjustments for the main title */
 @media (max-width: 768px) {
@@ -134,12 +146,26 @@
         .section-title { font-size: 1.8em; color: #00ff88; margin-bottom: 20px; display: flex; align-items: center; gap: 10px; }
 
         .post {
-            background: rgba(0, 0, 0, 0.4);
-            border: 1px solid rgba(0, 255, 136, 0.2);
-            border-radius: 15px;
-            padding: 20px;
-            margin-bottom: 20px;
-        }
+    background: rgba(0, 0, 0, 0.4);
+    border: 1px solid rgba(0, 255, 136, 0.2);
+    border-radius: 15px;
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+.post-date {
+    color: #557755;
+    font-size: 0.9em;
+    margin-bottom: 8px;
+}
+
+.post-content {
+    color: #c0e0c0;
+    line-height: 1.8;
+    white-space: pre-wrap;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 1.05em;
+}
 
         .gallery-grid {
             display: grid;
@@ -206,6 +232,46 @@
         .modal-close { position: absolute; top: 20px; right: 20px; background: #000; color: #00ff88; border: 1px solid #00ff88; padding: 10px 20px; cursor: pointer; }
         .section-divider { margin: 60px 0; border: none; height: 1px; background: rgba(0,255,136,0.1); }
         .loading { text-align: center; color: #88cc88; padding: 20px; }
+        .playlist-link-card {
+    background: rgba(0, 0, 0, 0.4);
+    border: 1px solid rgba(0, 255, 136, 0.3);
+    border-radius: 15px;
+    padding: 15px;
+    margin-bottom: 15px;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.playlist-link-card:hover {
+    background: rgba(0, 255, 136, 0.1);
+    border-color: #00ff88;
+    transform: translateX(5px);
+}
+
+.playlist-thumb {
+    font-size: 2em;
+    width: 60px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 255, 136, 0.1);
+    border-radius: 10px;
+}
+
+.playlist-title {
+    color: #00ff88;
+    font-weight: 600;
+    margin-bottom: 5px;
+}
+
+.playlist-info {
+    color: #88cc88;
+    font-size: 0.9em;
+}
     </style>
 </head>
 <body>
@@ -228,29 +294,55 @@
 
         <div class="content-grid">
             <div class="blog-section" style="display: block;">
-                <h2 class="section-title">📝 Daily Thoughts</h2>
+                <h2 class="section-title">Daily Thoughts</h2>
                 <div id="postsContainer"><div class="loading">Loading posts...</div></div>
             </div>
 
             <div class="sidebar">
-                <h2 class="section-title">Playlists</h2>
-                <iframe style="border-radius:12px; margin-bottom: 20px;" src="https://open.spotify.com/embed/playlist/1E85PFlX96y0tgmXtnHAoG?utm_source=generator" width="100%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
-                <iframe style="border-radius:12px; margin-bottom: 20px;" src="https://open.spotify.com/embed/playlist/4nBpACVHwLCHpe6UWx5eQc?utm_source=generator" width="100%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
-                <iframe style="border-radius:12px; margin-bottom: 20px;" src="https://open.spotify.com/embed/playlist/6Wjdz810xCPkNLbaA9Gvrh?utm_source=generator" width="100%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
-            </div>
+    <h2 class="section-title">Playlists</h2>
+    
+    <div class="playlist-link-card" onclick="window.open('https://open.spotify.com/playlist/1E85PFlX96y0tgmXtnHAoG', '_blank')">
+        <div class="playlist-thumb">
+            <img src="images/playlists/ehcover.jpg" alt="Playlist 1" style="width: 100%; height: 100%; object-fit: cover; border-radius: 10px;">
         </div>
+        <div>
+            <div class="playlist-title">EH 🗣️</div>
+            <div class="playlist-info">Open in Spotify</div>
+        </div>
+    </div>
+
+    <div class="playlist-link-card" onclick="window.open('https://open.spotify.com/playlist/4nBpACVHwLCHpe6UWx5eQc', '_blank')">
+        <div class="playlist-thumb">
+            <img src="images/playlists/treesnstuffcover.jpg" alt="Playlist 2" style="width: 100%; height: 100%; object-fit: cover; border-radius: 10px;">
+        </div>
+        <div>
+            <div class="playlist-title">Treesnstuff💚🌎🌳🌱</div>
+            <div class="playlist-info">Open in Spotify</div>
+        </div>
+    </div>
+
+    <div class="playlist-link-card" onclick="window.open('https://open.spotify.com/playlist/6Wjdz810xCPkNLbaA9Gvrh', '_blank')">
+        <div class="playlist-thumb">
+            <img src="images/playlists/brainstimulicover.jpg" alt="Playlist 3" style="width: 100%; height: 100%; object-fit: cover; border-radius: 10px;">
+        </div>
+        <div>
+            <div class="playlist-title">brainstimuli</div>
+            <div class="playlist-info">Open in Spotify</div>
+        </div>
+    </div>
+</div>
 
         <div class="section-divider"></div>
 
         <div class="music-library">
-            <h2 class="section-title">🎵 Music Production Library</h2>
+            <h2 class="section-title">Music Production Library</h2>
             <div id="tracksContainer"><div class="loading">Loading tracks...</div></div>
         </div>
 
         <div class="section-divider"></div>
 
         <div class="music-library">
-            <h2 class="section-title">🎨 Art Gallery</h2>
+            <h2 class="section-title">Art Gallery</h2>
             <div class="gallery-grid" id="galleryContainer"><div class="loading" style="grid-column: 1/-1;">Loading gallery...</div></div>
         </div>
     </div>
