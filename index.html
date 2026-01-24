@@ -50,6 +50,35 @@
             cursor: url('images/cursor/pointer.png'), pointer;
         }
 
+        /* Cursor glow effect for visibility */
+        .cursor-glow {
+            position: fixed;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 9998;
+            background: radial-gradient(circle, rgba(0, 255, 136, 0.4) 0%, rgba(0, 255, 136, 0.1) 40%, transparent 70%);
+            transform: translate(-50%, -50%);
+            transition: opacity 0.15s ease;
+            mix-blend-mode: screen;
+        }
+
+        [data-theme="dark"] .cursor-glow {
+            background: radial-gradient(circle, rgba(0, 255, 136, 0.5) 0%, rgba(0, 255, 255, 0.2) 40%, transparent 70%);
+        }
+
+        :root .cursor-glow {
+            background: radial-gradient(circle, rgba(255, 105, 180, 0.5) 0%, rgba(135, 206, 235, 0.2) 40%, transparent 70%);
+        }
+
+        /* Hide cursor glow on touch devices */
+        @media (hover: none) {
+            .cursor-glow {
+                display: none;
+            }
+        }
+
         /* ===== BASE STYLES ===== */
         * {
             margin: 0;
@@ -137,6 +166,47 @@
         @keyframes twinkle {
             0% { opacity: 0.5; }
             100% { opacity: 1; }
+        }
+
+        /* Shooting Stars */
+        .shooting-star {
+            position: fixed;
+            width: 4px;
+            height: 4px;
+            background: linear-gradient(45deg, white, transparent);
+            border-radius: 50%;
+            box-shadow: 0 0 6px 2px rgba(255, 255, 255, 0.6);
+            opacity: 0;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .shooting-star::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 80px;
+            height: 1px;
+            background: linear-gradient(90deg, rgba(255,255,255,0.8), transparent);
+        }
+
+        .shooting-star.animate {
+            animation: shootingStar 1.5s ease-out forwards;
+        }
+
+        @keyframes shootingStar {
+            0% {
+                opacity: 1;
+                transform: translate(0, 0) rotate(-45deg);
+            }
+            70% {
+                opacity: 1;
+            }
+            100% {
+                opacity: 0;
+                transform: translate(300px, 300px) rotate(-45deg);
+            }
         }
 
         /* Light mode tones down stars */
@@ -456,6 +526,8 @@
             align-items: center;
             justify-content: center;
             transition: all 0.2s;
+            touch-action: manipulation;
+            -webkit-tap-highlight-color: transparent;
         }
 
         .window-btn:hover {
@@ -514,6 +586,15 @@
             display: flex;
             gap: 8px;
             flex: 1;
+            overflow-x: auto;
+            overflow-y: hidden;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+        }
+
+        .taskbar-items::-webkit-scrollbar {
+            display: none;
         }
 
         .taskbar-item {
@@ -528,6 +609,8 @@
             overflow: hidden;
             text-overflow: ellipsis;
             white-space: nowrap;
+            flex-shrink: 0;
+            touch-action: manipulation;
         }
 
         .taskbar-item:hover {
@@ -801,6 +884,8 @@
             border-radius: 10px;
             text-transform: uppercase;
             transition: all 0.2s;
+            touch-action: manipulation;
+            -webkit-tap-highlight-color: transparent;
         }
 
         .spin-btn:hover:not(:disabled) {
@@ -824,6 +909,8 @@
             border-radius: 8px;
             overflow: hidden;
             transition: transform 0.2s;
+            touch-action: manipulation;
+            -webkit-tap-highlight-color: transparent;
         }
 
         .gallery-item:hover {
@@ -1028,6 +1115,9 @@
     <!-- Space Background -->
     <div class="space-bg"></div>
     <div class="stars"></div>
+
+    <!-- Cursor Glow -->
+    <div class="cursor-glow" id="cursor-glow"></div>
 
     <!-- Theme Toggle -->
     <button class="theme-toggle" onclick="toggleTheme()">
@@ -1307,6 +1397,11 @@
         // ===== WINDOW MANAGEMENT =====
         function openWindow(id) {
             const win = document.getElementById(`window-${id}`);
+            // Toggle behavior - close if already open and active
+            if (win.classList.contains('active')) {
+                closeWindow(id);
+                return;
+            }
             win.classList.add('active');
             openWindows.add(id);
             focusWindow(id);
@@ -1373,7 +1468,8 @@
 
         // ===== DRAGGING (Mouse + Touch) =====
         function startDrag(e, header) {
-            if (e.target.classList.contains('window-btn')) return;
+            // Check if target is a button or inside a button
+            if (e.target.closest('.window-btn') || e.target.closest('.window-controls')) return;
 
             const win = header.parentElement;
             draggedWindow = win;
@@ -1432,6 +1528,48 @@
                 focusWindow(id);
             });
         });
+
+        // ===== MOBILE TOUCH SUPPORT =====
+        // Add explicit touch handlers for window buttons
+        document.querySelectorAll('.window-btn').forEach(btn => {
+            btn.addEventListener('touchend', (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                btn.click();
+            }, { passive: false });
+        });
+
+        // Add touch handler for gallery modal close button
+        document.querySelector('.gallery-modal-close')?.addEventListener('touchend', (e) => {
+            e.preventDefault();
+            closeGalleryModal();
+        }, { passive: false });
+
+        // Add touch handler for gallery modal background
+        document.getElementById('gallery-modal')?.addEventListener('touchend', (e) => {
+            if (e.target.id === 'gallery-modal') {
+                e.preventDefault();
+                closeGalleryModal();
+            }
+        }, { passive: false });
+
+        // Add touch handler for spin button
+        document.getElementById('spin-btn')?.addEventListener('touchend', (e) => {
+            e.preventDefault();
+            spinSlots();
+        }, { passive: false });
+
+        // Event delegation for gallery items (dynamically created)
+        document.getElementById('gallery-grid')?.addEventListener('touchend', (e) => {
+            const galleryItem = e.target.closest('.gallery-item');
+            if (galleryItem) {
+                e.preventDefault();
+                const img = galleryItem.querySelector('img');
+                if (img) {
+                    openGalleryModal(img.src);
+                }
+            }
+        }, { passive: false });
 
         // ===== SLOTS GAME =====
         const soundRoll = document.getElementById('sound-slotroll');
@@ -1748,6 +1886,46 @@
         loadPaintings();
         loadPosts();
         loadTracks();
+
+        // ===== CURSOR GLOW =====
+        const cursorGlow = document.getElementById('cursor-glow');
+        document.addEventListener('mousemove', (e) => {
+            cursorGlow.style.left = (e.clientX + 14) + 'px';
+            cursorGlow.style.top = (e.clientY + 14) + 'px';
+        });
+
+        // Hide cursor glow when mouse leaves window
+        document.addEventListener('mouseleave', () => {
+            cursorGlow.style.opacity = '0';
+        });
+        document.addEventListener('mouseenter', () => {
+            cursorGlow.style.opacity = '1';
+        });
+
+        // ===== SHOOTING STARS =====
+        function createShootingStar() {
+            const star = document.createElement('div');
+            star.className = 'shooting-star';
+            star.style.left = Math.random() * 70 + '%';
+            star.style.top = Math.random() * 40 + '%';
+            document.body.appendChild(star);
+
+            // Trigger animation
+            setTimeout(() => star.classList.add('animate'), 10);
+
+            // Remove after animation
+            setTimeout(() => star.remove(), 1600);
+        }
+
+        // Create shooting stars at random intervals
+        function scheduleShootingStar() {
+            const delay = Math.random() * 4000 + 2000; // 2-6 seconds
+            setTimeout(() => {
+                createShootingStar();
+                scheduleShootingStar();
+            }, delay);
+        }
+        scheduleShootingStar();
     </script>
 </body>
 </html>
