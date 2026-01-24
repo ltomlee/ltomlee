@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,20 +7,20 @@
     <style>
         /* ===== CSS VARIABLES & THEMES ===== */
         :root {
-            --bg-primary: #f5f5dc;
-            --bg-secondary: #e8e8c8;
-            --text-primary: #1a1a2e;
-            --text-secondary: #333;
-            --accent-primary: #ff1493;
-            --accent-secondary: #00bfff;
-            --accent-tertiary: #32cd32;
-            --window-bg: #fafae8;
-            --window-border: #ff1493;
-            --taskbar-bg: rgba(255, 20, 147, 0.9);
-            --sidebar-bg: rgba(245, 245, 220, 0.85);
-            --ipod-body: linear-gradient(145deg, #ff1493, #00bfff);
-            --ipod-wheel: #f5f5dc;
-            --pattern-color: rgba(255, 20, 147, 0.1);
+            --bg-primary: #1a1525;
+            --bg-secondary: #251a30;
+            --text-primary: #e8b4d8;
+            --text-secondary: #d4a0c8;
+            --accent-primary: #ff69b4;
+            --accent-secondary: #87ceeb;
+            --accent-tertiary: #98fb98;
+            --window-bg: #201828;
+            --window-border: #ff69b4;
+            --taskbar-bg: rgba(255, 105, 180, 0.85);
+            --sidebar-bg: rgba(30, 20, 40, 0.9);
+            --ipod-body: linear-gradient(145deg, #ff69b4, #87ceeb);
+            --ipod-wheel: #2a1f35;
+            --pattern-color: rgba(255, 105, 180, 0.15);
         }
 
         [data-theme="dark"] {
@@ -42,7 +42,12 @@
 
         /* ===== CUSTOM CURSOR ===== */
         * {
-            cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><rect x="10" y="0" width="4" height="4" fill="%23888"/><rect x="10" y="4" width="4" height="4" fill="%23aaa"/><rect x="10" y="8" width="4" height="4" fill="%23ccc"/><rect x="8" y="12" width="8" height="4" fill="%23ddd"/><rect x="6" y="16" width="4" height="4" fill="%23c9a227"/><rect x="14" y="16" width="4" height="4" fill="%23c9a227"/><rect x="10" y="16" width="4" height="4" fill="%23b8860b"/><rect x="10" y="20" width="4" height="4" fill="%238b6914"/></svg>') 12 0, auto;
+            cursor: url('images/cursor/cursor.png'), auto;
+        }
+
+        a, button, .desktop-icon, .taskbar-item, .taskbar-start, .window-btn,
+        .gallery-item, .link-btn, .spin-btn, .theme-toggle, [onclick] {
+            cursor: url('images/cursor/pointer.png'), pointer;
         }
 
         /* ===== BASE STYLES ===== */
@@ -61,8 +66,22 @@
             position: relative;
         }
 
-        /* ===== BACKGROUND PATTERNS ===== */
-        .bg-pattern {
+        /* ===== SPACE BACKGROUND ===== */
+        .space-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            background:
+                radial-gradient(ellipse at 20% 80%, rgba(120, 0, 255, 0.15) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 20%, rgba(0, 150, 255, 0.15) 0%, transparent 50%),
+                radial-gradient(ellipse at 50% 50%, rgba(100, 0, 150, 0.1) 0%, transparent 70%);
+        }
+
+        .stars {
             position: fixed;
             top: 0;
             left: 0;
@@ -72,49 +91,69 @@
             z-index: 0;
         }
 
-        .bg-pattern.light-pattern {
+        .stars::before,
+        .stars::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
             background-image:
-                linear-gradient(var(--pattern-color) 1px, transparent 1px),
-                linear-gradient(90deg, var(--pattern-color) 1px, transparent 1px);
-            background-size: 20px 20px;
+                radial-gradient(1px 1px at 10% 20%, white 100%, transparent),
+                radial-gradient(1px 1px at 25% 35%, rgba(255,255,255,0.8) 100%, transparent),
+                radial-gradient(1.5px 1.5px at 40% 15%, white 100%, transparent),
+                radial-gradient(1px 1px at 55% 45%, rgba(255,255,255,0.6) 100%, transparent),
+                radial-gradient(1px 1px at 70% 25%, white 100%, transparent),
+                radial-gradient(1.5px 1.5px at 85% 55%, rgba(255,255,255,0.9) 100%, transparent),
+                radial-gradient(1px 1px at 15% 60%, rgba(255,255,255,0.7) 100%, transparent),
+                radial-gradient(1px 1px at 30% 75%, white 100%, transparent),
+                radial-gradient(1.5px 1.5px at 50% 85%, rgba(255,255,255,0.8) 100%, transparent),
+                radial-gradient(1px 1px at 65% 70%, white 100%, transparent),
+                radial-gradient(1px 1px at 80% 90%, rgba(255,255,255,0.6) 100%, transparent),
+                radial-gradient(1px 1px at 95% 40%, white 100%, transparent),
+                radial-gradient(2px 2px at 5% 90%, rgba(0, 255, 136, 0.8) 100%, transparent),
+                radial-gradient(2px 2px at 92% 8%, rgba(255, 0, 255, 0.8) 100%, transparent),
+                radial-gradient(1px 1px at 45% 30%, rgba(0, 255, 255, 0.7) 100%, transparent);
+            background-size: 100% 100%;
+            animation: twinkle 4s ease-in-out infinite alternate;
         }
 
-        [data-theme="dark"] .bg-pattern.light-pattern {
-            display: none;
-        }
-
-        .bg-pattern.dark-pattern {
-            display: none;
-            background:
-                repeating-linear-gradient(
-                    0deg,
-                    transparent,
-                    transparent 50px,
-                    var(--pattern-color) 50px,
-                    var(--pattern-color) 51px
-                ),
-                repeating-linear-gradient(
-                    90deg,
-                    transparent,
-                    transparent 50px,
-                    var(--pattern-color) 50px,
-                    var(--pattern-color) 51px
-                );
-        }
-
-        [data-theme="dark"] .bg-pattern.dark-pattern {
-            display: block;
+        .stars::after {
             background-image:
-                linear-gradient(var(--pattern-color) 1px, transparent 1px),
-                linear-gradient(90deg, var(--pattern-color) 1px, transparent 1px),
-                radial-gradient(circle at 25% 25%, var(--accent-secondary) 1px, transparent 1px);
-            background-size: 40px 40px, 40px 40px, 80px 80px;
+                radial-gradient(1px 1px at 8% 42%, white 100%, transparent),
+                radial-gradient(1px 1px at 22% 68%, rgba(255,255,255,0.7) 100%, transparent),
+                radial-gradient(1.5px 1.5px at 38% 52%, white 100%, transparent),
+                radial-gradient(1px 1px at 52% 18%, rgba(255,255,255,0.8) 100%, transparent),
+                radial-gradient(1px 1px at 68% 82%, white 100%, transparent),
+                radial-gradient(1px 1px at 78% 38%, rgba(255,255,255,0.6) 100%, transparent),
+                radial-gradient(1.5px 1.5px at 88% 72%, white 100%, transparent),
+                radial-gradient(1px 1px at 18% 88%, rgba(255,255,255,0.9) 100%, transparent),
+                radial-gradient(1px 1px at 35% 5%, white 100%, transparent),
+                radial-gradient(1px 1px at 62% 95%, rgba(255,255,255,0.7) 100%, transparent);
+            animation: twinkle 3s ease-in-out infinite alternate-reverse;
+        }
+
+        @keyframes twinkle {
+            0% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
+
+        /* Light mode tones down stars */
+        :root .stars::before,
+        :root .stars::after {
+            opacity: 0.3;
+        }
+
+        [data-theme="dark"] .stars::before,
+        [data-theme="dark"] .stars::after {
+            opacity: 1;
         }
 
         /* ===== MAIN CONTAINER ===== */
         .desktop {
             display: flex;
-            height: calc(100vh - 50px);
+            height: calc(100vh - 60px);
             position: relative;
             z-index: 1;
         }
@@ -180,9 +219,9 @@
 
         .icons-grid {
             display: grid;
-            grid-template-columns: repeat(3, 100px);
-            grid-template-rows: repeat(2, 100px);
-            gap: 20px;
+            grid-template-columns: repeat(3, 140px);
+            grid-template-rows: repeat(2, 140px);
+            gap: 40px;
             justify-content: center;
             align-content: center;
         }
@@ -192,34 +231,154 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            padding: 10px;
+            padding: 15px;
             border: 2px solid transparent;
-            border-radius: 8px;
-            transition: all 0.2s;
+            border-radius: 12px;
+            transition: all 0.3s ease;
             text-decoration: none;
             color: var(--text-primary);
         }
 
         .desktop-icon:hover {
-            background: rgba(255, 20, 147, 0.2);
-            border-color: var(--accent-primary);
-            transform: scale(1.05);
+            transform: scale(1.1);
         }
 
-        [data-theme="dark"] .desktop-icon:hover {
-            background: rgba(0, 255, 136, 0.2);
-        }
-
-        .desktop-icon .icon {
-            font-size: 40px;
-            margin-bottom: 8px;
-            filter: drop-shadow(2px 2px 2px rgba(0,0,0,0.3));
+        .desktop-icon:hover .planet {
+            box-shadow: 0 0 30px currentColor, 0 0 60px currentColor;
         }
 
         .desktop-icon .label {
-            font-size: 12px;
+            font-size: 13px;
             text-align: center;
-            text-shadow: 1px 1px 2px var(--bg-primary);
+            text-shadow: 0 0 10px rgba(0,0,0,0.8), 0 2px 4px rgba(0,0,0,0.9);
+            margin-top: 12px;
+            font-weight: bold;
+            letter-spacing: 1px;
+        }
+
+        /* ===== PLANET ICONS ===== */
+        .planet {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            position: relative;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 20px currentColor, inset -8px -8px 20px rgba(0,0,0,0.4);
+        }
+
+        .planet::before {
+            content: '';
+            position: absolute;
+            top: 10%;
+            left: 15%;
+            width: 25%;
+            height: 20%;
+            background: rgba(255,255,255,0.3);
+            border-radius: 50%;
+            filter: blur(3px);
+        }
+
+        /* iPod - Pink/Magenta planet with rings */
+        .planet-ipod {
+            background: linear-gradient(135deg, #ff1493 0%, #ff69b4 30%, #c71585 70%, #8b008b 100%);
+            color: #ff1493;
+        }
+
+        .planet-ipod::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: -20%;
+            width: 140%;
+            height: 12px;
+            border: 2px solid rgba(255,105,180,0.6);
+            border-radius: 50%;
+            transform: translateY(-50%) rotateX(70deg);
+        }
+
+        /* Slots - Gold/Orange gas giant */
+        .planet-slots {
+            background: linear-gradient(135deg, #ffd700 0%, #ff8c00 25%, #ff6347 50%, #dc143c 75%, #b22222 100%);
+            color: #ffd700;
+            background-size: 200% 200%;
+            animation: gasGiant 8s ease infinite;
+        }
+
+        .planet-slots::after {
+            content: '';
+            position: absolute;
+            top: 30%;
+            left: 5%;
+            width: 90%;
+            height: 8%;
+            background: rgba(255,200,100,0.4);
+            border-radius: 50%;
+            filter: blur(2px);
+        }
+
+        @keyframes gasGiant {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        /* Gallery - Purple nebula */
+        .planet-gallery {
+            background: radial-gradient(circle at 30% 30%, #ee82ee 0%, #9932cc 30%, #4b0082 70%, #2e0854 100%);
+            color: #ee82ee;
+            box-shadow: 0 0 20px #9932cc, 0 0 40px rgba(153,50,204,0.5), inset -8px -8px 20px rgba(0,0,0,0.4);
+        }
+
+        /* Blog - Cyan/Teal ice planet */
+        .planet-blog {
+            background: linear-gradient(135deg, #00ffff 0%, #00ced1 30%, #008b8b 60%, #006666 100%);
+            color: #00ffff;
+        }
+
+        .planet-blog::after {
+            content: '';
+            position: absolute;
+            top: 20%;
+            left: 20%;
+            width: 60%;
+            height: 60%;
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 50%;
+        }
+
+        /* Links - Green matrix planet */
+        .planet-links {
+            background: radial-gradient(circle at 40% 40%, #00ff88 0%, #00cc66 30%, #008844 60%, #004422 100%);
+            color: #00ff88;
+        }
+
+        /* About - Blue Earth-like */
+        .planet-about {
+            background:
+                radial-gradient(circle at 30% 30%, rgba(255,255,255,0.1) 0%, transparent 50%),
+                linear-gradient(135deg, #4169e1 0%, #1e90ff 25%, #00bfff 50%, #006994 75%, #00008b 100%);
+            color: #00bfff;
+        }
+
+        .planet-about::after {
+            content: '';
+            position: absolute;
+            top: 15%;
+            left: 10%;
+            width: 35%;
+            height: 25%;
+            background: rgba(144,238,144,0.3);
+            border-radius: 30% 70% 50% 50%;
+            filter: blur(2px);
+        }
+
+        /* Orbit animation on hover */
+        .desktop-icon:hover .planet {
+            animation: float 2s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-8px); }
         }
 
         /* ===== THEME TOGGLE ===== */
@@ -325,13 +484,13 @@
             bottom: 0;
             left: 0;
             right: 0;
-            height: 50px;
+            height: 60px;
             background: var(--taskbar-bg);
             border-top: 3px solid var(--accent-secondary);
             display: flex;
             align-items: center;
-            padding: 0 10px;
-            gap: 5px;
+            padding: 0 15px;
+            gap: 8px;
             z-index: 500;
         }
 
@@ -339,11 +498,11 @@
             background: var(--bg-primary);
             color: var(--accent-primary);
             border: 2px solid var(--accent-primary);
-            padding: 5px 15px;
+            padding: 8px 20px;
             font-family: inherit;
             font-weight: bold;
-            font-size: 12px;
-            margin-right: 10px;
+            font-size: 14px;
+            margin-right: 15px;
         }
 
         .taskbar-start:hover {
@@ -353,7 +512,7 @@
 
         .taskbar-items {
             display: flex;
-            gap: 5px;
+            gap: 8px;
             flex: 1;
         }
 
@@ -361,10 +520,11 @@
             background: var(--bg-primary);
             color: var(--text-primary);
             border: 2px solid var(--accent-secondary);
-            padding: 5px 12px;
+            padding: 8px 16px;
             font-family: inherit;
-            font-size: 11px;
-            max-width: 150px;
+            font-size: 13px;
+            font-weight: bold;
+            max-width: 160px;
             overflow: hidden;
             text-overflow: ellipsis;
             white-space: nowrap;
@@ -372,38 +532,43 @@
 
         .taskbar-item:hover {
             background: var(--accent-secondary);
-            color: var(--bg-primary);
+            color: #000;
         }
 
         .taskbar-item.active {
             border-color: var(--accent-primary);
-            background: var(--accent-tertiary);
+            background: var(--bg-primary);
+            color: var(--accent-primary);
+            box-shadow: inset 0 -3px 0 var(--accent-primary);
         }
 
         .taskbar-clock {
             color: var(--bg-primary);
-            font-size: 12px;
+            font-size: 14px;
             font-weight: bold;
-            padding: 0 10px;
+            padding: 0 15px;
         }
 
         /* ===== iPOD STYLES ===== */
-        .ipod-container {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100%;
-        }
-
         .ipod {
+            position: absolute;
             width: 200px;
-            height: 320px;
+            height: 340px;
             background: var(--ipod-body);
             border-radius: 20px;
             padding: 15px;
             box-shadow:
                 inset 0 2px 10px rgba(255,255,255,0.3),
                 0 8px 20px rgba(0,0,0,0.4);
+            z-index: 300;
+            display: none;
+            left: 50px;
+            top: 100px;
+            user-select: none;
+        }
+
+        .ipod.active {
+            display: block;
         }
 
         .ipod-screen {
@@ -415,6 +580,7 @@
             padding: 10px;
             color: #00ff88;
             font-size: 10px;
+            overflow: hidden;
         }
 
         .ipod-screen-header {
@@ -427,18 +593,26 @@
 
         .ipod-now-playing {
             text-align: center;
+            overflow: hidden;
         }
 
         .ipod-track-name {
             font-size: 12px;
             font-weight: bold;
             margin-bottom: 5px;
-            animation: marquee 10s linear infinite;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .ipod-track-name.scrolling {
+            animation: marquee 6s linear infinite;
+            overflow: visible;
         }
 
         @keyframes marquee {
-            0%, 20% { transform: translateX(0); }
-            80%, 100% { transform: translateX(-50%); }
+            0% { transform: translateX(100%); }
+            100% { transform: translateX(-100%); }
         }
 
         .ipod-artist {
@@ -446,8 +620,16 @@
             opacity: 0.7;
         }
 
+        .ipod-time {
+            display: flex;
+            justify-content: space-between;
+            font-size: 8px;
+            margin-top: 5px;
+            opacity: 0.7;
+        }
+
         .ipod-progress {
-            margin-top: 10px;
+            margin-top: 5px;
             height: 4px;
             background: #333;
             border-radius: 2px;
@@ -456,14 +638,9 @@
 
         .ipod-progress-bar {
             height: 100%;
-            width: 35%;
+            width: 0%;
             background: #00ff88;
-            animation: progress 30s linear infinite;
-        }
-
-        @keyframes progress {
-            0% { width: 0%; }
-            100% { width: 100%; }
+            transition: width 0.5s linear;
         }
 
         .ipod-wheel {
@@ -471,7 +648,7 @@
             height: 140px;
             background: var(--ipod-wheel);
             border-radius: 50%;
-            margin: 20px auto 0;
+            margin: 15px auto 0;
             position: relative;
             box-shadow:
                 inset 0 5px 15px rgba(0,0,0,0.2),
@@ -488,19 +665,67 @@
             background: var(--accent-primary);
             border-radius: 50%;
             box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+            transition: all 0.1s;
         }
 
-        .ipod-wheel-label {
+        .ipod-wheel-center:hover {
+            transform: translate(-50%, -50%) scale(1.05);
+        }
+
+        .ipod-wheel-center:active {
+            transform: translate(-50%, -50%) scale(0.95);
+        }
+
+        .ipod-wheel-btn {
             position: absolute;
             font-size: 10px;
             color: var(--text-primary);
             font-weight: bold;
+            background: none;
+            border: none;
+            padding: 8px;
+            transition: all 0.1s;
         }
 
-        .ipod-wheel-label.top { top: 10px; left: 50%; transform: translateX(-50%); }
-        .ipod-wheel-label.bottom { bottom: 10px; left: 50%; transform: translateX(-50%); }
-        .ipod-wheel-label.left { left: 10px; top: 50%; transform: translateY(-50%); }
-        .ipod-wheel-label.right { right: 10px; top: 50%; transform: translateY(-50%); }
+        .ipod-wheel-btn:hover {
+            transform: scale(1.2);
+        }
+
+        .ipod-wheel-btn:active {
+            transform: scale(0.9);
+        }
+
+        .ipod-wheel-btn.top { top: 5px; left: 50%; transform: translateX(-50%); }
+        .ipod-wheel-btn.top:hover { transform: translateX(-50%) scale(1.2); }
+        .ipod-wheel-btn.bottom { bottom: 5px; left: 50%; transform: translateX(-50%); }
+        .ipod-wheel-btn.bottom:hover { transform: translateX(-50%) scale(1.2); }
+        .ipod-wheel-btn.left { left: 5px; top: 50%; transform: translateY(-50%); }
+        .ipod-wheel-btn.left:hover { transform: translateY(-50%) scale(1.2); }
+        .ipod-wheel-btn.right { right: 5px; top: 50%; transform: translateY(-50%); }
+        .ipod-wheel-btn.right:hover { transform: translateY(-50%) scale(1.2); }
+
+        .ipod-close {
+            position: absolute;
+            top: -10px;
+            right: -10px;
+            width: 24px;
+            height: 24px;
+            background: #ff4444;
+            border: 2px solid #fff;
+            border-radius: 50%;
+            color: #fff;
+            font-size: 14px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+        }
+
+        .ipod-close:hover {
+            background: #ff0000;
+            transform: scale(1.1);
+        }
 
         /* ===== SLOTS GAME ===== */
         .slots-container {
@@ -728,6 +953,27 @@
             margin-top: 20px;
         }
 
+        /* ===== CONFETTI ===== */
+        .confetti {
+            position: fixed;
+            width: 10px;
+            height: 10px;
+            pointer-events: none;
+            z-index: 9999;
+            animation: confetti-burst 2s ease-out forwards;
+        }
+
+        @keyframes confetti-burst {
+            0% {
+                opacity: 1;
+                transform: translate(0, 0) rotate(0deg) scale(1);
+            }
+            100% {
+                opacity: 0;
+                transform: translate(var(--x), var(--y)) rotate(var(--r)) scale(0.5);
+            }
+        }
+
         /* ===== SCROLLBAR ===== */
         ::-webkit-scrollbar {
             width: 10px;
@@ -753,35 +999,39 @@
             }
 
             .icons-grid {
-                grid-template-columns: repeat(2, 100px);
-                grid-template-rows: repeat(3, 100px);
+                grid-template-columns: repeat(2, 120px);
+                grid-template-rows: repeat(3, 120px);
+                gap: 30px;
             }
         }
 
         @media (max-width: 500px) {
             .icons-grid {
-                grid-template-columns: repeat(2, 80px);
-                gap: 10px;
+                grid-template-columns: repeat(2, 100px);
+                grid-template-rows: repeat(3, 100px);
+                gap: 20px;
             }
 
-            .desktop-icon .icon {
-                font-size: 30px;
+            .planet {
+                width: 45px;
+                height: 45px;
             }
 
             .desktop-icon .label {
-                font-size: 10px;
+                font-size: 11px;
+                margin-top: 8px;
             }
         }
     </style>
 </head>
 <body>
-    <!-- Background Patterns -->
-    <div class="bg-pattern light-pattern"></div>
-    <div class="bg-pattern dark-pattern"></div>
+    <!-- Space Background -->
+    <div class="space-bg"></div>
+    <div class="stars"></div>
 
     <!-- Theme Toggle -->
     <button class="theme-toggle" onclick="toggleTheme()">
-        <span id="theme-icon">DARK MODE</span>
+        <span id="theme-icon">LIGHT MODE</span>
     </button>
 
     <!-- Main Desktop -->
@@ -789,61 +1039,35 @@
         <!-- Left Sidebar -->
         <div class="sidebar sidebar-left">
             <div class="ascii-art" id="ascii-left">
- _____
-|     |
-| (o) |
-|  _  |
-| | | |
-|_|_|_|
-IPSUM
-  OS
-            </div>
-            <div class="stats-box">
-                <h4>SYSTEM</h4>
-                <div>CPU: <span class="stats-value">OK</span></div>
-                <div>MEM: <span class="stats-value">GOOD</span></div>
-                <div>VIBE: <span class="stats-value">MAX</span></div>
-            </div>
-            <div class="stats-box">
-                <h4>VISITOR</h4>
-                <div>STATUS: <span class="stats-value">VIP</span></div>
-            </div>
-            <div class="ascii-art">
-  /\  /\
- /  \/  \
-|   DJ   |
- \      /
-  \    /
-   \  /
-    \/
+<!-- ASCII art placeholder -->
             </div>
         </div>
 
         <!-- Desktop Icons Area -->
         <div class="desktop-main">
             <div class="icons-grid">
-                <div class="desktop-icon" onclick="openWindow('ipod')">
-                    <span class="icon">🎵</span>
+                <div class="desktop-icon" onclick="toggleIpod()">
+                    <div class="planet planet-ipod"></div>
                     <span class="label">iPod</span>
                 </div>
                 <div class="desktop-icon" onclick="openWindow('slots')">
-                    <span class="icon">🎰</span>
+                    <div class="planet planet-slots"></div>
                     <span class="label">Slots</span>
                 </div>
                 <div class="desktop-icon" onclick="openWindow('gallery')">
-                    <span class="icon">🎨</span>
+                    <div class="planet planet-gallery"></div>
                     <span class="label">Gallery</span>
                 </div>
                 <div class="desktop-icon" onclick="openWindow('blog')">
-                    <span class="icon">📝</span>
+                    <div class="planet planet-blog"></div>
                     <span class="label">Blog</span>
                 </div>
                 <div class="desktop-icon" onclick="openWindow('links')">
-                    <span class="icon">🔗</span>
+                    <div class="planet planet-links"></div>
                     <span class="label">Links</span>
                 </div>
                 <div class="desktop-icon" onclick="openWindow('about')">
-                    <span class="icon">ℹ️</span>
+                    <div class="planet planet-about"></div>
                     <span class="label">About</span>
                 </div>
             </div>
@@ -851,12 +1075,8 @@ IPSUM
 
         <!-- Right Sidebar -->
         <div class="sidebar sidebar-right">
-            <div class="ascii-art">
-  _____
- /     \
-| SLOTS |
- \_____/
-   |||
+            <div class="ascii-art" id="ascii-right">
+<!-- ASCII art placeholder -->
             </div>
             <div class="stats-box">
                 <h4>CASINO</h4>
@@ -871,53 +1091,41 @@ IPSUM
                 <h4>WINS</h4>
                 <div class="stats-value" id="sidebar-wins">0</div>
             </div>
-            <div class="ascii-art">
- [][][]
-  \||/
-   ||
-  /||\
- / || \
-            </div>
         </div>
     </div>
 
-    <!-- Windows -->
-    <!-- iPod Window -->
-    <div class="window" id="window-ipod" style="width: 280px; height: 450px; left: 100px; top: 50px;">
-        <div class="window-header">
-            <span class="window-title">iPod</span>
-            <div class="window-controls">
-                <button class="window-btn minimize" onclick="minimizeWindow('ipod')">_</button>
-                <button class="window-btn close" onclick="closeWindow('ipod')">X</button>
+    <!-- Standalone iPod (draggable) -->
+    <div class="ipod" id="ipod">
+        <button class="ipod-close" onclick="toggleIpod()">X</button>
+        <div class="ipod-screen">
+            <div class="ipod-screen-header">
+                <span>iPod</span>
+                <span id="ipod-status">⏸</span>
             </div>
-        </div>
-        <div class="window-content">
-            <div class="ipod-container">
-                <div class="ipod">
-                    <div class="ipod-screen">
-                        <div class="ipod-screen-header">
-                            <span>iPod</span>
-                            <span>🔋</span>
-                        </div>
-                        <div class="ipod-now-playing">
-                            <div class="ipod-track-name">ruby duoloop</div>
-                            <div class="ipod-artist">Laurenipsum</div>
-                            <div class="ipod-progress">
-                                <div class="ipod-progress-bar"></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="ipod-wheel">
-                        <span class="ipod-wheel-label top">MENU</span>
-                        <span class="ipod-wheel-label bottom">⏸️</span>
-                        <span class="ipod-wheel-label left">⏮️</span>
-                        <span class="ipod-wheel-label right">⏭️</span>
-                        <div class="ipod-wheel-center"></div>
-                    </div>
+            <div class="ipod-now-playing">
+                <div class="ipod-track-name" id="ipod-track">No Track</div>
+                <div class="ipod-artist" id="ipod-artist">-</div>
+                <div class="ipod-time">
+                    <span id="ipod-current-time">0:00</span>
+                    <span id="ipod-duration">0:00</span>
+                </div>
+                <div class="ipod-progress">
+                    <div class="ipod-progress-bar" id="ipod-progress-bar"></div>
                 </div>
             </div>
         </div>
+        <div class="ipod-wheel">
+            <button class="ipod-wheel-btn top" onclick="ipodMenu()">MENU</button>
+            <button class="ipod-wheel-btn bottom" onclick="ipodPlayPause()">⏯️</button>
+            <button class="ipod-wheel-btn left" onclick="ipodPrev()">⏮️</button>
+            <button class="ipod-wheel-btn right" onclick="ipodNext()">⏭️</button>
+            <button class="ipod-wheel-center" onclick="ipodPlayPause()"></button>
+        </div>
     </div>
+    <audio id="ipod-audio"></audio>
+    <audio id="sound-slotroll" src="sounds/slotroll.wav"></audio>
+
+    <!-- Windows -->
 
     <!-- Slots Window -->
     <div class="window" id="window-slots" style="width: 350px; height: 400px; left: 150px; top: 80px;">
@@ -1027,15 +1235,11 @@ IPSUM
                 <div class="about-bio">
                     DJ / Music Producer / Painter<br><br>
                     Welcome to ipsumOS - my digital space.<br>
-                    I create beats, spin tracks, and paint vibes.<br><br>
+                    <br><br>
                     Based in the void between pixels and sound waves.
                 </div>
-                <pre class="about-ascii">
-    ╔═══════════════════╗
-    ║  SYSTEM ONLINE    ║
-    ║  VIBES: MAXIMUM   ║
-    ║  BEATS: LOADED    ║
-    ╚═══════════════════╝
+                <pre class="about-ascii" id="about-ascii">
+<!-- ASCII art placeholder -->
                 </pre>
             </div>
         </div>
@@ -1081,11 +1285,13 @@ IPSUM
             localStorage.setItem('theme', newTheme);
         }
 
-        // Load saved theme
-        const savedTheme = localStorage.getItem('theme') || 'light';
+        // Load saved theme (default to dark for new visitors)
+        const savedTheme = localStorage.getItem('theme') || 'dark';
         if (savedTheme === 'dark') {
             document.documentElement.setAttribute('data-theme', 'dark');
             document.getElementById('theme-icon').textContent = 'LIGHT MODE';
+        } else {
+            document.getElementById('theme-icon').textContent = 'DARK MODE';
         }
 
         // ===== CLOCK =====
@@ -1134,7 +1340,6 @@ IPSUM
             container.innerHTML = '';
 
             const names = {
-                ipod: '🎵 iPod',
                 slots: '🎰 Slots',
                 gallery: '🎨 Gallery',
                 blog: '📝 Blog',
@@ -1166,45 +1371,71 @@ IPSUM
             });
         }
 
-        // ===== DRAGGING =====
-        document.querySelectorAll('.window-header').forEach(header => {
-            header.addEventListener('mousedown', (e) => {
-                if (e.target.classList.contains('window-btn')) return;
+        // ===== DRAGGING (Mouse + Touch) =====
+        function startDrag(e, header) {
+            if (e.target.classList.contains('window-btn')) return;
 
-                const win = header.parentElement;
-                draggedWindow = win;
-                const rect = win.getBoundingClientRect();
-                dragOffset.x = e.clientX - rect.left;
-                dragOffset.y = e.clientY - rect.top;
+            const win = header.parentElement;
+            draggedWindow = win;
+            const rect = win.getBoundingClientRect();
 
-                const id = win.id.replace('window-', '');
-                focusWindow(id);
-            });
-        });
+            const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+            const clientY = e.touches ? e.touches[0].clientY : e.clientY;
 
-        document.addEventListener('mousemove', (e) => {
+            dragOffset.x = clientX - rect.left;
+            dragOffset.y = clientY - rect.top;
+
+            const id = win.id.replace('window-', '');
+            focusWindow(id);
+
+            if (e.touches) e.preventDefault();
+        }
+
+        function moveDrag(e) {
             if (!draggedWindow) return;
 
-            const x = e.clientX - dragOffset.x;
-            const y = e.clientY - dragOffset.y;
+            const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+            const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+
+            const x = clientX - dragOffset.x;
+            const y = clientY - dragOffset.y;
 
             draggedWindow.style.left = Math.max(0, x) + 'px';
             draggedWindow.style.top = Math.max(0, y) + 'px';
-        });
 
-        document.addEventListener('mouseup', () => {
+            if (e.touches) e.preventDefault();
+        }
+
+        function endDrag() {
             draggedWindow = null;
+        }
+
+        document.querySelectorAll('.window-header').forEach(header => {
+            header.addEventListener('mousedown', (e) => startDrag(e, header));
+            header.addEventListener('touchstart', (e) => startDrag(e, header), { passive: false });
         });
 
-        // Focus window on click
+        document.addEventListener('mousemove', moveDrag);
+        document.addEventListener('touchmove', moveDrag, { passive: false });
+
+        document.addEventListener('mouseup', endDrag);
+        document.addEventListener('touchend', endDrag);
+
+        // Focus window on click/touch
         document.querySelectorAll('.window').forEach(win => {
             win.addEventListener('mousedown', () => {
+                const id = win.id.replace('window-', '');
+                focusWindow(id);
+            });
+            win.addEventListener('touchstart', () => {
                 const id = win.id.replace('window-', '');
                 focusWindow(id);
             });
         });
 
         // ===== SLOTS GAME =====
+        const soundRoll = document.getElementById('sound-slotroll');
+
         function updatePointsDisplay() {
             document.getElementById('points-display').textContent = points;
             document.getElementById('sidebar-points').textContent = points;
@@ -1228,6 +1459,10 @@ IPSUM
             const btn = document.getElementById('spin-btn');
             btn.disabled = true;
 
+            // Play roll sound
+            soundRoll.currentTime = 0;
+            soundRoll.play();
+
             const reels = [
                 document.getElementById('reel1'),
                 document.getElementById('reel2'),
@@ -1238,7 +1473,7 @@ IPSUM
             document.getElementById('slots-message').textContent = 'SPINNING...';
 
             const results = [];
-            const delays = [500, 800, 1100];
+            const delays = [1000, 2000, 3000];
 
             reels.forEach((reel, i) => {
                 setTimeout(() => {
@@ -1259,6 +1494,7 @@ IPSUM
             const [a, b, c] = results;
             let msg = '';
             let winAmount = 0;
+            let isWin = false;
 
             if (a === b && b === c) {
                 // Three of a kind
@@ -1273,17 +1509,49 @@ IPSUM
                     msg = 'THREE OF A KIND! +100';
                 }
                 totalWins++;
+                isWin = true;
             } else if (a === b || b === c || a === c) {
                 winAmount = 20;
                 msg = 'TWO MATCH! +20';
                 totalWins++;
+                isWin = true;
             } else {
                 msg = 'TRY AGAIN!';
+            }
+
+            // Stop roll sound and play win sound if won
+            if (isWin) {
+                soundRoll.pause();
+                soundRoll.currentTime = 0;
+                // Create fresh audio to avoid any caching/duplicate issues
+                const winSound = new Audio('sounds/slotwinfr.wav');
+                winSound.play();
+                createConfetti();
             }
 
             points += winAmount;
             updatePointsDisplay();
             document.getElementById('slots-message').textContent = msg;
+        }
+
+        function createConfetti() {
+            const slotsWindow = document.getElementById('window-slots');
+            const rect = slotsWindow.getBoundingClientRect();
+            const colors = ['#ff1493', '#00ff88', '#00bfff', '#ffd700', '#ff00ff', '#00ffff'];
+
+            for (let i = 0; i < 50; i++) {
+                const confetti = document.createElement('div');
+                confetti.className = 'confetti';
+                confetti.style.left = (rect.left + rect.width / 2 + (Math.random() - 0.5) * 100) + 'px';
+                confetti.style.top = (rect.top + 50) + 'px';
+                confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                confetti.style.setProperty('--x', (Math.random() - 0.5) * 300 + 'px');
+                confetti.style.setProperty('--y', Math.random() * 200 + 100 + 'px');
+                confetti.style.setProperty('--r', Math.random() * 720 - 360 + 'deg');
+                document.body.appendChild(confetti);
+
+                setTimeout(() => confetti.remove(), 2000);
+            }
         }
 
         // Initialize points display
@@ -1338,9 +1606,148 @@ IPSUM
             document.getElementById('gallery-modal').classList.remove('active');
         }
 
+        // ===== iPOD FUNCTIONALITY =====
+        let ipodTracks = [];
+        let currentTrackIndex = 0;
+        let isPlaying = false;
+        const ipodAudio = document.getElementById('ipod-audio');
+        const ipodElement = document.getElementById('ipod');
+        let ipodDragging = false;
+
+        function toggleIpod() {
+            const isActive = ipodElement.classList.toggle('active');
+            // Pause audio when closing iPod
+            if (!isActive && isPlaying) {
+                ipodAudio.pause();
+                isPlaying = false;
+                document.getElementById('ipod-status').textContent = '⏸';
+            }
+        }
+
+        async function loadTracks() {
+            try {
+                const response = await fetch('data/tracks.json');
+                ipodTracks = await response.json();
+                if (ipodTracks.length > 0) {
+                    loadTrack(0);
+                }
+            } catch (e) {
+                console.log('Could not load tracks:', e);
+            }
+        }
+
+        function loadTrack(index) {
+            if (ipodTracks.length === 0) return;
+            currentTrackIndex = index;
+            const track = ipodTracks[index];
+            document.getElementById('ipod-track').textContent = track.name;
+            document.getElementById('ipod-artist').textContent = 'Laurenipsum';
+            ipodAudio.src = track.downloadUrl;
+            document.getElementById('ipod-progress-bar').style.width = '0%';
+            document.getElementById('ipod-current-time').textContent = '0:00';
+            document.getElementById('ipod-duration').textContent = '0:00';
+
+            // Check if track name needs scrolling
+            const trackEl = document.getElementById('ipod-track');
+            if (trackEl.scrollWidth > trackEl.clientWidth) {
+                trackEl.classList.add('scrolling');
+            } else {
+                trackEl.classList.remove('scrolling');
+            }
+        }
+
+        function ipodPlayPause() {
+            if (ipodTracks.length === 0) return;
+
+            if (isPlaying) {
+                ipodAudio.pause();
+                isPlaying = false;
+                document.getElementById('ipod-status').textContent = '⏸';
+            } else {
+                ipodAudio.play();
+                isPlaying = true;
+                document.getElementById('ipod-status').textContent = '▶';
+            }
+        }
+
+        function ipodNext() {
+            if (ipodTracks.length === 0) return;
+            currentTrackIndex = (currentTrackIndex + 1) % ipodTracks.length;
+            loadTrack(currentTrackIndex);
+            if (isPlaying) ipodAudio.play();
+        }
+
+        function ipodPrev() {
+            if (ipodTracks.length === 0) return;
+            currentTrackIndex = (currentTrackIndex - 1 + ipodTracks.length) % ipodTracks.length;
+            loadTrack(currentTrackIndex);
+            if (isPlaying) ipodAudio.play();
+        }
+
+        function ipodMenu() {
+            // Future: show track list menu
+        }
+
+        function formatTime(seconds) {
+            const mins = Math.floor(seconds / 60);
+            const secs = Math.floor(seconds % 60);
+            return `${mins}:${secs.toString().padStart(2, '0')}`;
+        }
+
+        ipodAudio.addEventListener('timeupdate', () => {
+            if (ipodAudio.duration) {
+                const progress = (ipodAudio.currentTime / ipodAudio.duration) * 100;
+                document.getElementById('ipod-progress-bar').style.width = progress + '%';
+                document.getElementById('ipod-current-time').textContent = formatTime(ipodAudio.currentTime);
+            }
+        });
+
+        ipodAudio.addEventListener('loadedmetadata', () => {
+            document.getElementById('ipod-duration').textContent = formatTime(ipodAudio.duration);
+        });
+
+        ipodAudio.addEventListener('ended', () => {
+            ipodNext();
+        });
+
+        // iPod dragging (separate from windows)
+        function startIpodDrag(e) {
+            if (e.target.tagName === 'BUTTON') return;
+            ipodDragging = true;
+            const rect = ipodElement.getBoundingClientRect();
+            const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+            const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+            dragOffset.x = clientX - rect.left;
+            dragOffset.y = clientY - rect.top;
+            if (e.touches) e.preventDefault();
+        }
+
+        function moveIpodDrag(e) {
+            if (!ipodDragging) return;
+            const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+            const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+            const x = clientX - dragOffset.x;
+            const y = clientY - dragOffset.y;
+            ipodElement.style.left = Math.max(0, x) + 'px';
+            ipodElement.style.top = Math.max(0, y) + 'px';
+            if (e.touches) e.preventDefault();
+        }
+
+        function endIpodDrag() {
+            ipodDragging = false;
+        }
+
+        ipodElement.addEventListener('mousedown', startIpodDrag);
+        ipodElement.addEventListener('touchstart', startIpodDrag, { passive: false });
+        document.addEventListener('mousemove', moveIpodDrag);
+        document.addEventListener('touchmove', moveIpodDrag, { passive: false });
+        document.addEventListener('mouseup', endIpodDrag);
+        document.addEventListener('touchend', endIpodDrag);
+
         // Load data on page load
         loadPaintings();
         loadPosts();
+        loadTracks();
     </script>
 </body>
 </html>
