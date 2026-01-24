@@ -1,0 +1,1346 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ipsumOS - Laurenipsum</title>
+    <style>
+        /* ===== CSS VARIABLES & THEMES ===== */
+        :root {
+            --bg-primary: #f5f5dc;
+            --bg-secondary: #e8e8c8;
+            --text-primary: #1a1a2e;
+            --text-secondary: #333;
+            --accent-primary: #ff1493;
+            --accent-secondary: #00bfff;
+            --accent-tertiary: #32cd32;
+            --window-bg: #fafae8;
+            --window-border: #ff1493;
+            --taskbar-bg: rgba(255, 20, 147, 0.9);
+            --sidebar-bg: rgba(245, 245, 220, 0.85);
+            --ipod-body: linear-gradient(145deg, #ff1493, #00bfff);
+            --ipod-wheel: #f5f5dc;
+            --pattern-color: rgba(255, 20, 147, 0.1);
+        }
+
+        [data-theme="dark"] {
+            --bg-primary: #0a0015;
+            --bg-secondary: #150025;
+            --text-primary: #00ff88;
+            --text-secondary: #00ffff;
+            --accent-primary: #00ff88;
+            --accent-secondary: #ff00ff;
+            --accent-tertiary: #00ffff;
+            --window-bg: #0f001a;
+            --window-border: #00ff88;
+            --taskbar-bg: rgba(0, 255, 136, 0.9);
+            --sidebar-bg: rgba(10, 0, 21, 0.9);
+            --ipod-body: linear-gradient(145deg, #00ff88, #00ffff);
+            --ipod-wheel: #0a0015;
+            --pattern-color: rgba(0, 255, 136, 0.1);
+        }
+
+        /* ===== CUSTOM CURSOR ===== */
+        * {
+            cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><rect x="10" y="0" width="4" height="4" fill="%23888"/><rect x="10" y="4" width="4" height="4" fill="%23aaa"/><rect x="10" y="8" width="4" height="4" fill="%23ccc"/><rect x="8" y="12" width="8" height="4" fill="%23ddd"/><rect x="6" y="16" width="4" height="4" fill="%23c9a227"/><rect x="14" y="16" width="4" height="4" fill="%23c9a227"/><rect x="10" y="16" width="4" height="4" fill="%23b8860b"/><rect x="10" y="20" width="4" height="4" fill="%238b6914"/></svg>') 12 0, auto;
+        }
+
+        /* ===== BASE STYLES ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Courier New', Courier, monospace;
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            min-height: 100vh;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* ===== BACKGROUND PATTERNS ===== */
+        .bg-pattern {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .bg-pattern.light-pattern {
+            background-image:
+                linear-gradient(var(--pattern-color) 1px, transparent 1px),
+                linear-gradient(90deg, var(--pattern-color) 1px, transparent 1px);
+            background-size: 20px 20px;
+        }
+
+        [data-theme="dark"] .bg-pattern.light-pattern {
+            display: none;
+        }
+
+        .bg-pattern.dark-pattern {
+            display: none;
+            background:
+                repeating-linear-gradient(
+                    0deg,
+                    transparent,
+                    transparent 50px,
+                    var(--pattern-color) 50px,
+                    var(--pattern-color) 51px
+                ),
+                repeating-linear-gradient(
+                    90deg,
+                    transparent,
+                    transparent 50px,
+                    var(--pattern-color) 50px,
+                    var(--pattern-color) 51px
+                );
+        }
+
+        [data-theme="dark"] .bg-pattern.dark-pattern {
+            display: block;
+            background-image:
+                linear-gradient(var(--pattern-color) 1px, transparent 1px),
+                linear-gradient(90deg, var(--pattern-color) 1px, transparent 1px),
+                radial-gradient(circle at 25% 25%, var(--accent-secondary) 1px, transparent 1px);
+            background-size: 40px 40px, 40px 40px, 80px 80px;
+        }
+
+        /* ===== MAIN CONTAINER ===== */
+        .desktop {
+            display: flex;
+            height: calc(100vh - 50px);
+            position: relative;
+            z-index: 1;
+        }
+
+        /* ===== SIDEBARS ===== */
+        .sidebar {
+            width: 180px;
+            background: var(--sidebar-bg);
+            border: 2px solid var(--accent-primary);
+            padding: 10px;
+            font-size: 10px;
+            line-height: 1.2;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .sidebar-left {
+            border-right: 2px solid var(--accent-primary);
+        }
+
+        .sidebar-right {
+            border-left: 2px solid var(--accent-primary);
+        }
+
+        .ascii-art {
+            white-space: pre;
+            font-size: 8px;
+            color: var(--accent-primary);
+            text-align: center;
+            margin-bottom: 10px;
+        }
+
+        .stats-box {
+            background: var(--bg-secondary);
+            border: 1px solid var(--accent-secondary);
+            padding: 8px;
+            margin: 5px 0;
+            font-size: 11px;
+        }
+
+        .stats-box h4 {
+            color: var(--accent-secondary);
+            margin-bottom: 5px;
+            text-transform: uppercase;
+            font-size: 10px;
+        }
+
+        .stats-value {
+            color: var(--accent-tertiary);
+            font-weight: bold;
+        }
+
+        /* ===== DESKTOP ICONS AREA ===== */
+        .desktop-main {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            position: relative;
+        }
+
+        .icons-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 100px);
+            grid-template-rows: repeat(2, 100px);
+            gap: 20px;
+            justify-content: center;
+            align-content: center;
+        }
+
+        .desktop-icon {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 10px;
+            border: 2px solid transparent;
+            border-radius: 8px;
+            transition: all 0.2s;
+            text-decoration: none;
+            color: var(--text-primary);
+        }
+
+        .desktop-icon:hover {
+            background: rgba(255, 20, 147, 0.2);
+            border-color: var(--accent-primary);
+            transform: scale(1.05);
+        }
+
+        [data-theme="dark"] .desktop-icon:hover {
+            background: rgba(0, 255, 136, 0.2);
+        }
+
+        .desktop-icon .icon {
+            font-size: 40px;
+            margin-bottom: 8px;
+            filter: drop-shadow(2px 2px 2px rgba(0,0,0,0.3));
+        }
+
+        .desktop-icon .label {
+            font-size: 12px;
+            text-align: center;
+            text-shadow: 1px 1px 2px var(--bg-primary);
+        }
+
+        /* ===== THEME TOGGLE ===== */
+        .theme-toggle {
+            position: fixed;
+            top: 10px;
+            right: 200px;
+            z-index: 1000;
+            background: var(--accent-primary);
+            color: var(--bg-primary);
+            border: none;
+            padding: 8px 16px;
+            font-family: inherit;
+            font-size: 12px;
+            border-radius: 4px;
+            transition: all 0.3s;
+        }
+
+        .theme-toggle:hover {
+            background: var(--accent-secondary);
+            transform: scale(1.05);
+        }
+
+        /* ===== WINDOWS ===== */
+        .window {
+            position: absolute;
+            background: var(--window-bg);
+            border: 3px solid var(--window-border);
+            border-radius: 8px;
+            min-width: 300px;
+            min-height: 200px;
+            box-shadow: 8px 8px 0 rgba(0, 0, 0, 0.3);
+            z-index: 100;
+            display: none;
+        }
+
+        .window.active {
+            display: block;
+        }
+
+        .window.focused {
+            z-index: 200;
+        }
+
+        .window-header {
+            background: var(--accent-primary);
+            color: var(--bg-primary);
+            padding: 8px 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-radius: 5px 5px 0 0;
+            user-select: none;
+        }
+
+        .window-title {
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        .window-controls {
+            display: flex;
+            gap: 8px;
+        }
+
+        .window-btn {
+            width: 20px;
+            height: 20px;
+            border: 2px solid var(--bg-primary);
+            background: transparent;
+            color: var(--bg-primary);
+            font-size: 12px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+        }
+
+        .window-btn:hover {
+            background: var(--bg-primary);
+            color: var(--accent-primary);
+        }
+
+        .window-btn.close {
+            background: #ff4444;
+            border-color: #ff4444;
+        }
+
+        .window-btn.close:hover {
+            background: #ff0000;
+        }
+
+        .window-content {
+            padding: 15px;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        /* ===== TASKBAR ===== */
+        .taskbar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 50px;
+            background: var(--taskbar-bg);
+            border-top: 3px solid var(--accent-secondary);
+            display: flex;
+            align-items: center;
+            padding: 0 10px;
+            gap: 5px;
+            z-index: 500;
+        }
+
+        .taskbar-start {
+            background: var(--bg-primary);
+            color: var(--accent-primary);
+            border: 2px solid var(--accent-primary);
+            padding: 5px 15px;
+            font-family: inherit;
+            font-weight: bold;
+            font-size: 12px;
+            margin-right: 10px;
+        }
+
+        .taskbar-start:hover {
+            background: var(--accent-primary);
+            color: var(--bg-primary);
+        }
+
+        .taskbar-items {
+            display: flex;
+            gap: 5px;
+            flex: 1;
+        }
+
+        .taskbar-item {
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            border: 2px solid var(--accent-secondary);
+            padding: 5px 12px;
+            font-family: inherit;
+            font-size: 11px;
+            max-width: 150px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .taskbar-item:hover {
+            background: var(--accent-secondary);
+            color: var(--bg-primary);
+        }
+
+        .taskbar-item.active {
+            border-color: var(--accent-primary);
+            background: var(--accent-tertiary);
+        }
+
+        .taskbar-clock {
+            color: var(--bg-primary);
+            font-size: 12px;
+            font-weight: bold;
+            padding: 0 10px;
+        }
+
+        /* ===== iPOD STYLES ===== */
+        .ipod-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100%;
+        }
+
+        .ipod {
+            width: 200px;
+            height: 320px;
+            background: var(--ipod-body);
+            border-radius: 20px;
+            padding: 15px;
+            box-shadow:
+                inset 0 2px 10px rgba(255,255,255,0.3),
+                0 8px 20px rgba(0,0,0,0.4);
+        }
+
+        .ipod-screen {
+            width: 100%;
+            height: 120px;
+            background: #1a1a2e;
+            border-radius: 8px;
+            border: 3px solid #333;
+            padding: 10px;
+            color: #00ff88;
+            font-size: 10px;
+        }
+
+        .ipod-screen-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            font-size: 9px;
+            opacity: 0.8;
+        }
+
+        .ipod-now-playing {
+            text-align: center;
+        }
+
+        .ipod-track-name {
+            font-size: 12px;
+            font-weight: bold;
+            margin-bottom: 5px;
+            animation: marquee 10s linear infinite;
+        }
+
+        @keyframes marquee {
+            0%, 20% { transform: translateX(0); }
+            80%, 100% { transform: translateX(-50%); }
+        }
+
+        .ipod-artist {
+            font-size: 10px;
+            opacity: 0.7;
+        }
+
+        .ipod-progress {
+            margin-top: 10px;
+            height: 4px;
+            background: #333;
+            border-radius: 2px;
+            overflow: hidden;
+        }
+
+        .ipod-progress-bar {
+            height: 100%;
+            width: 35%;
+            background: #00ff88;
+            animation: progress 30s linear infinite;
+        }
+
+        @keyframes progress {
+            0% { width: 0%; }
+            100% { width: 100%; }
+        }
+
+        .ipod-wheel {
+            width: 140px;
+            height: 140px;
+            background: var(--ipod-wheel);
+            border-radius: 50%;
+            margin: 20px auto 0;
+            position: relative;
+            box-shadow:
+                inset 0 5px 15px rgba(0,0,0,0.2),
+                0 3px 10px rgba(0,0,0,0.3);
+        }
+
+        .ipod-wheel-center {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 50px;
+            height: 50px;
+            background: var(--accent-primary);
+            border-radius: 50%;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+        }
+
+        .ipod-wheel-label {
+            position: absolute;
+            font-size: 10px;
+            color: var(--text-primary);
+            font-weight: bold;
+        }
+
+        .ipod-wheel-label.top { top: 10px; left: 50%; transform: translateX(-50%); }
+        .ipod-wheel-label.bottom { bottom: 10px; left: 50%; transform: translateX(-50%); }
+        .ipod-wheel-label.left { left: 10px; top: 50%; transform: translateY(-50%); }
+        .ipod-wheel-label.right { right: 10px; top: 50%; transform: translateY(-50%); }
+
+        /* ===== SLOTS GAME ===== */
+        .slots-container {
+            text-align: center;
+        }
+
+        .slots-title {
+            color: var(--accent-primary);
+            font-size: 24px;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px var(--accent-secondary);
+        }
+
+        .slots-machine {
+            background: linear-gradient(180deg, #333 0%, #111 100%);
+            border: 4px solid var(--accent-tertiary);
+            border-radius: 15px;
+            padding: 20px;
+            display: inline-block;
+        }
+
+        .slots-display {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        .slot-reel {
+            width: 60px;
+            height: 80px;
+            background: #fff;
+            border: 3px solid var(--accent-primary);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 40px;
+            box-shadow: inset 0 0 10px rgba(0,0,0,0.3);
+        }
+
+        .slot-reel.spinning {
+            animation: slotSpin 0.1s infinite;
+        }
+
+        @keyframes slotSpin {
+            0% { transform: translateY(-5px); }
+            50% { transform: translateY(5px); }
+            100% { transform: translateY(-5px); }
+        }
+
+        .slots-points {
+            color: var(--accent-tertiary);
+            font-size: 20px;
+            margin-bottom: 15px;
+        }
+
+        .slots-message {
+            color: var(--accent-secondary);
+            font-size: 16px;
+            margin-bottom: 15px;
+            min-height: 24px;
+        }
+
+        .spin-btn {
+            background: linear-gradient(180deg, var(--accent-primary), var(--accent-secondary));
+            color: #fff;
+            border: 3px solid var(--accent-tertiary);
+            padding: 15px 40px;
+            font-family: inherit;
+            font-size: 18px;
+            font-weight: bold;
+            border-radius: 10px;
+            text-transform: uppercase;
+            transition: all 0.2s;
+        }
+
+        .spin-btn:hover:not(:disabled) {
+            transform: scale(1.05);
+            box-shadow: 0 0 20px var(--accent-primary);
+        }
+
+        .spin-btn:disabled {
+            opacity: 0.5;
+        }
+
+        /* ===== GALLERY ===== */
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+            gap: 15px;
+        }
+
+        .gallery-item {
+            border: 2px solid var(--accent-primary);
+            border-radius: 8px;
+            overflow: hidden;
+            transition: transform 0.2s;
+        }
+
+        .gallery-item:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 15px var(--accent-primary);
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 100px;
+            object-fit: cover;
+        }
+
+        .gallery-item-title {
+            padding: 8px;
+            font-size: 10px;
+            text-align: center;
+            background: var(--bg-secondary);
+        }
+
+        .gallery-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.9);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .gallery-modal.active {
+            display: flex;
+        }
+
+        .gallery-modal img {
+            max-width: 90%;
+            max-height: 90%;
+            border: 4px solid var(--accent-primary);
+        }
+
+        .gallery-modal-close {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            color: #fff;
+            font-size: 40px;
+            background: none;
+            border: none;
+        }
+
+        /* ===== BLOG ===== */
+        .blog-post {
+            background: var(--bg-secondary);
+            border: 2px solid var(--accent-secondary);
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 15px;
+        }
+
+        .blog-date {
+            color: var(--accent-primary);
+            font-size: 11px;
+            margin-bottom: 8px;
+        }
+
+        .blog-content {
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        /* ===== LINKS ===== */
+        .links-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+        }
+
+        .link-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            padding: 15px;
+            background: var(--bg-secondary);
+            border: 2px solid var(--accent-primary);
+            border-radius: 8px;
+            color: var(--text-primary);
+            text-decoration: none;
+            font-size: 14px;
+            transition: all 0.2s;
+        }
+
+        .link-btn:hover {
+            background: var(--accent-primary);
+            color: var(--bg-primary);
+            transform: scale(1.05);
+        }
+
+        .link-btn .icon {
+            font-size: 24px;
+        }
+
+        /* ===== ABOUT ===== */
+        .about-content {
+            text-align: center;
+        }
+
+        .about-title {
+            font-size: 28px;
+            color: var(--accent-primary);
+            margin-bottom: 20px;
+            letter-spacing: 4px;
+        }
+
+        .about-bio {
+            font-size: 14px;
+            line-height: 1.8;
+            margin-bottom: 20px;
+        }
+
+        .about-ascii {
+            font-size: 8px;
+            color: var(--accent-secondary);
+            margin-top: 20px;
+        }
+
+        /* ===== SCROLLBAR ===== */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--bg-secondary);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--accent-primary);
+            border-radius: 5px;
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 900px) {
+            .sidebar {
+                display: none;
+            }
+
+            .theme-toggle {
+                right: 10px;
+            }
+
+            .icons-grid {
+                grid-template-columns: repeat(2, 100px);
+                grid-template-rows: repeat(3, 100px);
+            }
+        }
+
+        @media (max-width: 500px) {
+            .icons-grid {
+                grid-template-columns: repeat(2, 80px);
+                gap: 10px;
+            }
+
+            .desktop-icon .icon {
+                font-size: 30px;
+            }
+
+            .desktop-icon .label {
+                font-size: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Background Patterns -->
+    <div class="bg-pattern light-pattern"></div>
+    <div class="bg-pattern dark-pattern"></div>
+
+    <!-- Theme Toggle -->
+    <button class="theme-toggle" onclick="toggleTheme()">
+        <span id="theme-icon">DARK MODE</span>
+    </button>
+
+    <!-- Main Desktop -->
+    <div class="desktop">
+        <!-- Left Sidebar -->
+        <div class="sidebar sidebar-left">
+            <div class="ascii-art" id="ascii-left">
+ _____
+|     |
+| (o) |
+|  _  |
+| | | |
+|_|_|_|
+IPSUM
+  OS
+            </div>
+            <div class="stats-box">
+                <h4>SYSTEM</h4>
+                <div>CPU: <span class="stats-value">OK</span></div>
+                <div>MEM: <span class="stats-value">GOOD</span></div>
+                <div>VIBE: <span class="stats-value">MAX</span></div>
+            </div>
+            <div class="stats-box">
+                <h4>VISITOR</h4>
+                <div>STATUS: <span class="stats-value">VIP</span></div>
+            </div>
+            <div class="ascii-art">
+  /\  /\
+ /  \/  \
+|   DJ   |
+ \      /
+  \    /
+   \  /
+    \/
+            </div>
+        </div>
+
+        <!-- Desktop Icons Area -->
+        <div class="desktop-main">
+            <div class="icons-grid">
+                <div class="desktop-icon" onclick="openWindow('ipod')">
+                    <span class="icon">🎵</span>
+                    <span class="label">iPod</span>
+                </div>
+                <div class="desktop-icon" onclick="openWindow('slots')">
+                    <span class="icon">🎰</span>
+                    <span class="label">Slots</span>
+                </div>
+                <div class="desktop-icon" onclick="openWindow('gallery')">
+                    <span class="icon">🎨</span>
+                    <span class="label">Gallery</span>
+                </div>
+                <div class="desktop-icon" onclick="openWindow('blog')">
+                    <span class="icon">📝</span>
+                    <span class="label">Blog</span>
+                </div>
+                <div class="desktop-icon" onclick="openWindow('links')">
+                    <span class="icon">🔗</span>
+                    <span class="label">Links</span>
+                </div>
+                <div class="desktop-icon" onclick="openWindow('about')">
+                    <span class="icon">ℹ️</span>
+                    <span class="label">About</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Right Sidebar -->
+        <div class="sidebar sidebar-right">
+            <div class="ascii-art">
+  _____
+ /     \
+| SLOTS |
+ \_____/
+   |||
+            </div>
+            <div class="stats-box">
+                <h4>CASINO</h4>
+                <div>POINTS:</div>
+                <div class="stats-value" id="sidebar-points">100</div>
+            </div>
+            <div class="stats-box">
+                <h4>SPINS</h4>
+                <div class="stats-value" id="sidebar-spins">0</div>
+            </div>
+            <div class="stats-box">
+                <h4>WINS</h4>
+                <div class="stats-value" id="sidebar-wins">0</div>
+            </div>
+            <div class="ascii-art">
+ [][][]
+  \||/
+   ||
+  /||\
+ / || \
+            </div>
+        </div>
+    </div>
+
+    <!-- Windows -->
+    <!-- iPod Window -->
+    <div class="window" id="window-ipod" style="width: 280px; height: 450px; left: 100px; top: 50px;">
+        <div class="window-header">
+            <span class="window-title">iPod</span>
+            <div class="window-controls">
+                <button class="window-btn minimize" onclick="minimizeWindow('ipod')">_</button>
+                <button class="window-btn close" onclick="closeWindow('ipod')">X</button>
+            </div>
+        </div>
+        <div class="window-content">
+            <div class="ipod-container">
+                <div class="ipod">
+                    <div class="ipod-screen">
+                        <div class="ipod-screen-header">
+                            <span>iPod</span>
+                            <span>🔋</span>
+                        </div>
+                        <div class="ipod-now-playing">
+                            <div class="ipod-track-name">ruby duoloop</div>
+                            <div class="ipod-artist">Laurenipsum</div>
+                            <div class="ipod-progress">
+                                <div class="ipod-progress-bar"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ipod-wheel">
+                        <span class="ipod-wheel-label top">MENU</span>
+                        <span class="ipod-wheel-label bottom">⏸️</span>
+                        <span class="ipod-wheel-label left">⏮️</span>
+                        <span class="ipod-wheel-label right">⏭️</span>
+                        <div class="ipod-wheel-center"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slots Window -->
+    <div class="window" id="window-slots" style="width: 350px; height: 400px; left: 150px; top: 80px;">
+        <div class="window-header">
+            <span class="window-title">8-Bit Slots</span>
+            <div class="window-controls">
+                <button class="window-btn minimize" onclick="minimizeWindow('slots')">_</button>
+                <button class="window-btn close" onclick="closeWindow('slots')">X</button>
+            </div>
+        </div>
+        <div class="window-content">
+            <div class="slots-container">
+                <div class="slots-title">FRUIT SLOTS</div>
+                <div class="slots-machine">
+                    <div class="slots-display">
+                        <div class="slot-reel" id="reel1">🍒</div>
+                        <div class="slot-reel" id="reel2">🍋</div>
+                        <div class="slot-reel" id="reel3">🍊</div>
+                    </div>
+                    <div class="slots-points">POINTS: <span id="points-display">100</span></div>
+                    <div class="slots-message" id="slots-message">SPIN TO WIN!</div>
+                    <button class="spin-btn" id="spin-btn" onclick="spinSlots()">SPIN (10 PTS)</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Gallery Window -->
+    <div class="window" id="window-gallery" style="width: 450px; height: 380px; left: 200px; top: 60px;">
+        <div class="window-header">
+            <span class="window-title">Gallery</span>
+            <div class="window-controls">
+                <button class="window-btn minimize" onclick="minimizeWindow('gallery')">_</button>
+                <button class="window-btn close" onclick="closeWindow('gallery')">X</button>
+            </div>
+        </div>
+        <div class="window-content">
+            <div class="gallery-grid" id="gallery-grid">
+                <!-- Loaded from JSON -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Blog Window -->
+    <div class="window" id="window-blog" style="width: 400px; height: 350px; left: 250px; top: 100px;">
+        <div class="window-header">
+            <span class="window-title">Blog</span>
+            <div class="window-controls">
+                <button class="window-btn minimize" onclick="minimizeWindow('blog')">_</button>
+                <button class="window-btn close" onclick="closeWindow('blog')">X</button>
+            </div>
+        </div>
+        <div class="window-content">
+            <div id="blog-posts">
+                <!-- Loaded from JSON -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Links Window -->
+    <div class="window" id="window-links" style="width: 350px; height: 320px; left: 180px; top: 90px;">
+        <div class="window-header">
+            <span class="window-title">Links</span>
+            <div class="window-controls">
+                <button class="window-btn minimize" onclick="minimizeWindow('links')">_</button>
+                <button class="window-btn close" onclick="closeWindow('links')">X</button>
+            </div>
+        </div>
+        <div class="window-content">
+            <div class="links-grid">
+                <a href="https://soundcloud.com/dolaurenipsum" target="_blank" class="link-btn">
+                    <span class="icon">🔊</span>
+                    <span>SoundCloud</span>
+                </a>
+                <a href="https://www.youtube.com/@painitself" target="_blank" class="link-btn">
+                    <span class="icon">📺</span>
+                    <span>YouTube</span>
+                </a>
+                <a href="https://www.instagram.com/laurenipsumdj/" target="_blank" class="link-btn">
+                    <span class="icon">📷</span>
+                    <span>Instagram</span>
+                </a>
+                <a href="https://www.twitch.tv/ltomlee" target="_blank" class="link-btn">
+                    <span class="icon">🎮</span>
+                    <span>Twitch</span>
+                </a>
+                <a href="https://streamlabs.com/ltomlee/tip" target="_blank" class="link-btn" style="grid-column: span 2;">
+                    <span class="icon">💝</span>
+                    <span>Support / Donate</span>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- About Window -->
+    <div class="window" id="window-about" style="width: 400px; height: 350px; left: 220px; top: 70px;">
+        <div class="window-header">
+            <span class="window-title">About</span>
+            <div class="window-controls">
+                <button class="window-btn minimize" onclick="minimizeWindow('about')">_</button>
+                <button class="window-btn close" onclick="closeWindow('about')">X</button>
+            </div>
+        </div>
+        <div class="window-content">
+            <div class="about-content">
+                <div class="about-title">Ⳑⲁⳙⲅⲉⲛⳕⳏ⳽ⳙⲙ</div>
+                <div class="about-bio">
+                    DJ / Music Producer / Painter<br><br>
+                    Welcome to ipsumOS - my digital space.<br>
+                    I create beats, spin tracks, and paint vibes.<br><br>
+                    Based in the void between pixels and sound waves.
+                </div>
+                <pre class="about-ascii">
+    ╔═══════════════════╗
+    ║  SYSTEM ONLINE    ║
+    ║  VIBES: MAXIMUM   ║
+    ║  BEATS: LOADED    ║
+    ╚═══════════════════╝
+                </pre>
+            </div>
+        </div>
+    </div>
+
+    <!-- Gallery Modal -->
+    <div class="gallery-modal" id="gallery-modal" onclick="closeGalleryModal()">
+        <button class="gallery-modal-close">&times;</button>
+        <img id="gallery-modal-img" src="" alt="">
+    </div>
+
+    <!-- Taskbar -->
+    <div class="taskbar">
+        <button class="taskbar-start">ipsumOS</button>
+        <div class="taskbar-items" id="taskbar-items">
+            <!-- Dynamic taskbar items -->
+        </div>
+        <div class="taskbar-clock" id="taskbar-clock">00:00</div>
+    </div>
+
+    <script>
+        // ===== STATE =====
+        let openWindows = new Set();
+        let focusedWindow = null;
+        let draggedWindow = null;
+        let dragOffset = { x: 0, y: 0 };
+
+        // Slots game state
+        let points = parseInt(localStorage.getItem('slotsPoints')) || 100;
+        let totalSpins = parseInt(localStorage.getItem('slotsSpins')) || 0;
+        let totalWins = parseInt(localStorage.getItem('slotsWins')) || 0;
+
+        const symbols = ['🍒', '🍋', '🍊', '🍇', '🍉', '⭐', '💎'];
+
+        // ===== THEME =====
+        function toggleTheme() {
+            const html = document.documentElement;
+            const current = html.getAttribute('data-theme');
+            const newTheme = current === 'dark' ? 'light' : 'dark';
+            html.setAttribute('data-theme', newTheme);
+            document.getElementById('theme-icon').textContent =
+                newTheme === 'dark' ? 'LIGHT MODE' : 'DARK MODE';
+            localStorage.setItem('theme', newTheme);
+        }
+
+        // Load saved theme
+        const savedTheme = localStorage.getItem('theme') || 'light';
+        if (savedTheme === 'dark') {
+            document.documentElement.setAttribute('data-theme', 'dark');
+            document.getElementById('theme-icon').textContent = 'LIGHT MODE';
+        }
+
+        // ===== CLOCK =====
+        function updateClock() {
+            const now = new Date();
+            const hours = String(now.getHours()).padStart(2, '0');
+            const mins = String(now.getMinutes()).padStart(2, '0');
+            document.getElementById('taskbar-clock').textContent = `${hours}:${mins}`;
+        }
+        updateClock();
+        setInterval(updateClock, 1000);
+
+        // ===== WINDOW MANAGEMENT =====
+        function openWindow(id) {
+            const win = document.getElementById(`window-${id}`);
+            win.classList.add('active');
+            openWindows.add(id);
+            focusWindow(id);
+            updateTaskbar();
+        }
+
+        function closeWindow(id) {
+            const win = document.getElementById(`window-${id}`);
+            win.classList.remove('active');
+            openWindows.delete(id);
+            updateTaskbar();
+        }
+
+        function minimizeWindow(id) {
+            const win = document.getElementById(`window-${id}`);
+            win.classList.remove('active');
+            // Keep in openWindows for taskbar
+            updateTaskbar();
+        }
+
+        function focusWindow(id) {
+            document.querySelectorAll('.window').forEach(w => w.classList.remove('focused'));
+            const win = document.getElementById(`window-${id}`);
+            win.classList.add('focused');
+            focusedWindow = id;
+            updateTaskbar();
+        }
+
+        function updateTaskbar() {
+            const container = document.getElementById('taskbar-items');
+            container.innerHTML = '';
+
+            const names = {
+                ipod: '🎵 iPod',
+                slots: '🎰 Slots',
+                gallery: '🎨 Gallery',
+                blog: '📝 Blog',
+                links: '🔗 Links',
+                about: 'ℹ️ About'
+            };
+
+            openWindows.forEach(id => {
+                const btn = document.createElement('button');
+                btn.className = 'taskbar-item';
+                if (focusedWindow === id && document.getElementById(`window-${id}`).classList.contains('active')) {
+                    btn.classList.add('active');
+                }
+                btn.textContent = names[id] || id;
+                btn.onclick = () => {
+                    const win = document.getElementById(`window-${id}`);
+                    if (win.classList.contains('active')) {
+                        if (focusedWindow === id) {
+                            minimizeWindow(id);
+                        } else {
+                            focusWindow(id);
+                        }
+                    } else {
+                        win.classList.add('active');
+                        focusWindow(id);
+                    }
+                };
+                container.appendChild(btn);
+            });
+        }
+
+        // ===== DRAGGING =====
+        document.querySelectorAll('.window-header').forEach(header => {
+            header.addEventListener('mousedown', (e) => {
+                if (e.target.classList.contains('window-btn')) return;
+
+                const win = header.parentElement;
+                draggedWindow = win;
+                const rect = win.getBoundingClientRect();
+                dragOffset.x = e.clientX - rect.left;
+                dragOffset.y = e.clientY - rect.top;
+
+                const id = win.id.replace('window-', '');
+                focusWindow(id);
+            });
+        });
+
+        document.addEventListener('mousemove', (e) => {
+            if (!draggedWindow) return;
+
+            const x = e.clientX - dragOffset.x;
+            const y = e.clientY - dragOffset.y;
+
+            draggedWindow.style.left = Math.max(0, x) + 'px';
+            draggedWindow.style.top = Math.max(0, y) + 'px';
+        });
+
+        document.addEventListener('mouseup', () => {
+            draggedWindow = null;
+        });
+
+        // Focus window on click
+        document.querySelectorAll('.window').forEach(win => {
+            win.addEventListener('mousedown', () => {
+                const id = win.id.replace('window-', '');
+                focusWindow(id);
+            });
+        });
+
+        // ===== SLOTS GAME =====
+        function updatePointsDisplay() {
+            document.getElementById('points-display').textContent = points;
+            document.getElementById('sidebar-points').textContent = points;
+            document.getElementById('sidebar-spins').textContent = totalSpins;
+            document.getElementById('sidebar-wins').textContent = totalWins;
+            localStorage.setItem('slotsPoints', points);
+            localStorage.setItem('slotsSpins', totalSpins);
+            localStorage.setItem('slotsWins', totalWins);
+        }
+
+        function spinSlots() {
+            if (points < 10) {
+                document.getElementById('slots-message').textContent = 'NOT ENOUGH POINTS!';
+                return;
+            }
+
+            points -= 10;
+            totalSpins++;
+            updatePointsDisplay();
+
+            const btn = document.getElementById('spin-btn');
+            btn.disabled = true;
+
+            const reels = [
+                document.getElementById('reel1'),
+                document.getElementById('reel2'),
+                document.getElementById('reel3')
+            ];
+
+            reels.forEach(r => r.classList.add('spinning'));
+            document.getElementById('slots-message').textContent = 'SPINNING...';
+
+            const results = [];
+            const delays = [500, 800, 1100];
+
+            reels.forEach((reel, i) => {
+                setTimeout(() => {
+                    reel.classList.remove('spinning');
+                    const symbol = symbols[Math.floor(Math.random() * symbols.length)];
+                    reel.textContent = symbol;
+                    results.push(symbol);
+
+                    if (results.length === 3) {
+                        checkWin(results);
+                        btn.disabled = false;
+                    }
+                }, delays[i]);
+            });
+        }
+
+        function checkWin(results) {
+            const [a, b, c] = results;
+            let msg = '';
+            let winAmount = 0;
+
+            if (a === b && b === c) {
+                // Three of a kind
+                if (a === '💎') {
+                    winAmount = 500;
+                    msg = 'JACKPOT!!! +500';
+                } else if (a === '⭐') {
+                    winAmount = 200;
+                    msg = 'STARS!!! +200';
+                } else {
+                    winAmount = 100;
+                    msg = 'THREE OF A KIND! +100';
+                }
+                totalWins++;
+            } else if (a === b || b === c || a === c) {
+                winAmount = 20;
+                msg = 'TWO MATCH! +20';
+                totalWins++;
+            } else {
+                msg = 'TRY AGAIN!';
+            }
+
+            points += winAmount;
+            updatePointsDisplay();
+            document.getElementById('slots-message').textContent = msg;
+        }
+
+        // Initialize points display
+        updatePointsDisplay();
+
+        // ===== LOAD DATA =====
+        async function loadPaintings() {
+            try {
+                const response = await fetch('data/paintings.json');
+                const paintings = await response.json();
+                const grid = document.getElementById('gallery-grid');
+
+                grid.innerHTML = paintings.map(p => `
+                    <div class="gallery-item" onclick="openGalleryModal('${p.image}')">
+                        <img src="${p.image}" alt="${p.title}">
+                        <div class="gallery-item-title">${p.title}</div>
+                    </div>
+                `).join('');
+            } catch (e) {
+                console.log('Could not load paintings:', e);
+                document.getElementById('gallery-grid').innerHTML = '<p>No paintings yet...</p>';
+            }
+        }
+
+        async function loadPosts() {
+            try {
+                const response = await fetch('data/posts.json');
+                const posts = await response.json();
+                const container = document.getElementById('blog-posts');
+
+                container.innerHTML = posts.map(p => `
+                    <div class="blog-post">
+                        <div class="blog-date">${p.date}</div>
+                        <div class="blog-content">${p.content}</div>
+                    </div>
+                `).join('');
+            } catch (e) {
+                console.log('Could not load posts:', e);
+                document.getElementById('blog-posts').innerHTML = '<p>No posts yet...</p>';
+            }
+        }
+
+        // Gallery modal
+        function openGalleryModal(src) {
+            const modal = document.getElementById('gallery-modal');
+            const img = document.getElementById('gallery-modal-img');
+            img.src = src;
+            modal.classList.add('active');
+        }
+
+        function closeGalleryModal() {
+            document.getElementById('gallery-modal').classList.remove('active');
+        }
+
+        // Load data on page load
+        loadPaintings();
+        loadPosts();
+    </script>
+</body>
+</html>
