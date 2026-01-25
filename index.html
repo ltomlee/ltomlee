@@ -50,35 +50,6 @@
             cursor: url('images/cursor/pointer.png'), pointer;
         }
 
-        /* Cursor glow effect for visibility */
-        .cursor-glow {
-            position: fixed;
-            width: 30px;
-            height: 30px;
-            border-radius: 50%;
-            pointer-events: none;
-            z-index: 9998;
-            background: radial-gradient(circle, rgba(0, 255, 136, 0.4) 0%, rgba(0, 255, 136, 0.1) 40%, transparent 70%);
-            transform: translate(-50%, -50%);
-            transition: opacity 0.15s ease;
-            mix-blend-mode: screen;
-        }
-
-        [data-theme="dark"] .cursor-glow {
-            background: radial-gradient(circle, rgba(0, 255, 136, 0.5) 0%, rgba(0, 255, 255, 0.2) 40%, transparent 70%);
-        }
-
-        :root .cursor-glow {
-            background: radial-gradient(circle, rgba(255, 105, 180, 0.5) 0%, rgba(135, 206, 235, 0.2) 40%, transparent 70%);
-        }
-
-        /* Hide cursor glow on touch devices */
-        @media (hover: none) {
-            .cursor-glow {
-                display: none;
-            }
-        }
-
         /* ===== BASE STYLES ===== */
         * {
             margin: 0;
@@ -88,6 +59,7 @@
 
         body {
             font-family: 'Courier New', Courier, monospace;
+            background: url('images/decoration/purpskybg.jpg') center/cover no-repeat fixed;
             background-color: var(--bg-primary);
             color: var(--text-primary);
             min-height: 100vh;
@@ -184,11 +156,12 @@
         .shooting-star::after {
             content: '';
             position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-            width: 80px;
-            height: 1px;
-            background: linear-gradient(90deg, rgba(255,255,255,0.8), transparent);
+            left: 50%;
+            bottom: 100%;
+            transform: translateX(-50%);
+            width: 1px;
+            height: 80px;
+            background: linear-gradient(180deg, transparent, rgba(255,255,255,0.8));
         }
 
         .shooting-star.animate {
@@ -231,7 +204,7 @@
         /* ===== SIDEBARS ===== */
         .sidebar {
             width: 180px;
-            background: var(--sidebar-bg);
+            background: url('images/decoration/purplstar.gif') repeat;
             border: 2px solid var(--accent-primary);
             padding: 10px;
             font-size: 10px;
@@ -557,7 +530,8 @@
             left: 0;
             right: 0;
             height: 60px;
-            background: var(--taskbar-bg);
+            background: url('images/decoration/taskbar.gif') repeat-x center;
+            background-size: auto 100%;
             border-top: 3px solid var(--accent-secondary);
             display: flex;
             align-items: center;
@@ -1116,9 +1090,6 @@
     <div class="space-bg"></div>
     <div class="stars"></div>
 
-    <!-- Cursor Glow -->
-    <div class="cursor-glow" id="cursor-glow"></div>
-
     <!-- Theme Toggle -->
     <button class="theme-toggle" onclick="toggleTheme()">
         <span id="theme-icon">LIGHT MODE</span>
@@ -1169,7 +1140,7 @@
 <!-- ASCII art placeholder -->
             </div>
             <div class="stats-box">
-                <h4>CASINO</h4>
+                <h4>SLOTS</h4>
                 <div>POINTS:</div>
                 <div class="stats-value" id="sidebar-points">100</div>
             </div>
@@ -1886,21 +1857,6 @@
         loadPaintings();
         loadPosts();
         loadTracks();
-
-        // ===== CURSOR GLOW =====
-        const cursorGlow = document.getElementById('cursor-glow');
-        document.addEventListener('mousemove', (e) => {
-            cursorGlow.style.left = (e.clientX + 14) + 'px';
-            cursorGlow.style.top = (e.clientY + 14) + 'px';
-        });
-
-        // Hide cursor glow when mouse leaves window
-        document.addEventListener('mouseleave', () => {
-            cursorGlow.style.opacity = '0';
-        });
-        document.addEventListener('mouseenter', () => {
-            cursorGlow.style.opacity = '1';
-        });
 
         // ===== SHOOTING STARS =====
         function createShootingStar() {
