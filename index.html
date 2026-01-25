@@ -320,6 +320,13 @@
             box-shadow: 0 0 30px currentColor, 0 0 60px currentColor;
         }
 
+        /* Diagonal position for Slots (next to iPod) */
+        .icon-slots {
+            left: calc(50% - var(--orbit-radius) * 0.7);
+            top: calc(50% - var(--orbit-radius) * 0.7);
+            transform: translate(-50%, -50%);
+        }
+
         .desktop-icon .label {
             font-size: 13px;
             text-align: center;
@@ -904,9 +911,9 @@
         .slots-stats {
             display: flex;
             justify-content: center;
-            gap: 20px;
+            gap: 15px;
             margin-top: 15px;
-            font-size: 12px;
+            font-size: 11px;
             color: var(--accent-tertiary);
         }
 
@@ -1169,6 +1176,10 @@
                     <div class="planet planet-ipod"></div>
                     <span class="label">iPod</span>
                 </div>
+                <div class="desktop-icon icon-slots" onclick="openWindow('slots')">
+                    <div class="planet planet-slots"></div>
+                    <span class="label">Slots</span>
+                </div>
                 <div class="desktop-icon icon-gallery" onclick="openWindow('gallery')">
                     <div class="planet planet-gallery"></div>
                     <span class="label">Gallery</span>
@@ -1230,7 +1241,7 @@
     <!-- Windows -->
 
     <!-- Slots Window -->
-    <div class="window" id="window-slots" style="width: 350px; height: 400px; left: 150px; top: 80px;">
+    <div class="window" id="window-slots" style="width: 350px; height: 450px; left: 150px; top: 80px;">
         <div class="window-header">
             <span class="window-title">8-Bit Slots</span>
             <div class="window-controls">
@@ -1253,6 +1264,8 @@
                     <div class="slots-stats">
                         <span>SPINS: <span id="sidebar-spins">0</span></span>
                         <span>WINS: <span id="sidebar-wins">0</span></span>
+                        <span>3x: <span id="sidebar-jackpots">0</span></span>
+                        <span>PTS: <span id="sidebar-points">100</span></span>
                     </div>
                 </div>
             </div>
@@ -1376,6 +1389,7 @@
         let points = parseInt(localStorage.getItem('slotsPoints')) || 100;
         let totalSpins = parseInt(localStorage.getItem('slotsSpins')) || 0;
         let totalWins = parseInt(localStorage.getItem('slotsWins')) || 0;
+        let totalJackpots = parseInt(localStorage.getItem('slotsJackpots')) || 0;
 
         const symbols = ['🍒', '🍋', '🍊', '🍇', '🍉', '⭐', '💎'];
 
@@ -1591,11 +1605,14 @@
 
         function updatePointsDisplay() {
             document.getElementById('points-display').textContent = points;
+            document.getElementById('sidebar-points').textContent = points;
             document.getElementById('sidebar-spins').textContent = totalSpins;
             document.getElementById('sidebar-wins').textContent = totalWins;
+            document.getElementById('sidebar-jackpots').textContent = totalJackpots;
             localStorage.setItem('slotsPoints', points);
             localStorage.setItem('slotsSpins', totalSpins);
             localStorage.setItem('slotsWins', totalWins);
+            localStorage.setItem('slotsJackpots', totalJackpots);
         }
 
         function spinSlots() {
@@ -1661,6 +1678,7 @@
                     msg = 'THREE OF A KIND! +100';
                 }
                 totalWins++;
+                totalJackpots++;
                 isWin = true;
             } else if (a === b || b === c || a === c) {
                 winAmount = 20;
