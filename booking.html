@@ -9,20 +9,21 @@
         :root {
             --bg-primary: #0a0015;
             --bg-secondary: #150025;
-            --text-primary: #00ff88;
-            --text-secondary: #00ffff;
-            --accent-primary: #00ff88;
-            --accent-secondary: #ff00ff;
-            --accent-tertiary: #00ffff;
+            --text-primary: #E88BD5;
+            --text-secondary: #e6d0ff;
+            --accent-primary: #7EE8D7;
+            --accent-secondary: #E88BD5;
+            --accent-tertiary: #4E9A8A;
         }
 
         /* ===== CUSTOM CURSOR ===== */
         * {
-            cursor: url('images/cursor/cursor.png'), auto;
+            cursor: url('images/cursor/pinkcursor_32.png'), auto;
         }
 
-        a, button, [onclick] {
-            cursor: url('images/cursor/pointer.png'), pointer;
+        a, button, [onclick], .site-title-link,
+        a:hover, a:active, a:focus, button:hover, button:active, button:focus {
+            cursor: url('images/cursor/pinkcursorpointer_32.png'), pointer;
         }
 
         /* ===== BASE STYLES ===== */
@@ -119,6 +120,10 @@
             box-shadow: 0 4px 30px rgba(0, 255, 136, 0.2);
         }
 
+        .site-title-link {
+            text-decoration: none;
+        }
+
         .site-title {
             font-size: 42px;
             color: var(--accent-primary);
@@ -150,7 +155,7 @@
             color: var(--accent-primary);
             border-color: var(--accent-primary);
             text-shadow: 0 0 10px var(--accent-primary);
-            box-shadow: 0 0 15px rgba(0, 255, 136, 0.3);
+            box-shadow: 0 0 15px rgba(126, 232, 215, 0.3);
         }
 
         /* ===== PAGE CONTENT ===== */
@@ -295,13 +300,11 @@
 <body>
     <!-- Fixed Header -->
     <header class="site-header">
-        <h1 class="site-title">Ⳑⲁⳙⲅⲉⲛⳕⳏ⳽ⳙⲙ</h1>
+        <a href="index.html" class="site-title-link"><h1 class="site-title">Ⳑⲁⳙⲅⲉⲛⳕⳏ⳽ⳙⲙ</h1></a>
         <nav class="site-nav">
             <a href="index.html#about">About</a>
-            <a href="index.html#ipod-section">iPod</a>
             <a href="gallery.html">Gallery</a>
             <a href="blog.html">Blog</a>
-            <a href="index.html#slots">Slots</a>
             <a href="gym.html">Gym Progress</a>
             <a href="booking.html">Book Me</a>
             <a href="links.html">Links</a>

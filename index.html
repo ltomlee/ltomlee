@@ -9,25 +9,26 @@
         :root {
             --bg-primary: #0a0015;
             --bg-secondary: #150025;
-            --text-primary: #00ff88;
-            --text-secondary: #00ffff;
-            --accent-primary: #00ff88;
-            --accent-secondary: #ff00ff;
-            --accent-tertiary: #00ffff;
+            --text-primary: #E88BD5;
+            --text-secondary: #e6d0ff;
+            --accent-primary: #7EE8D7;
+            --accent-secondary: #E88BD5;
+            --accent-tertiary: #4E9A8A;
             --window-bg: #0f001a;
-            --window-border: #00ff88;
-            --ipod-body: linear-gradient(145deg, #00ff88, #00ffff);
+            --window-border: #7EE8D7;
+            --ipod-body: linear-gradient(145deg, #7EE8D7, #4E9A8A);
             --ipod-wheel: #0a0015;
-            --pattern-color: rgba(0, 255, 136, 0.1);
+            --pattern-color: rgba(126, 232, 215, 0.1);
         }
 
         /* ===== CUSTOM CURSOR ===== */
         * {
-            cursor: url('images/cursor/cursor.png'), auto;
+            cursor: url('images/cursor/pinkcursor_32.png'), auto;
         }
 
-        a, button, .desktop-icon, .spin-btn, [onclick] {
-            cursor: url('images/cursor/pointer.png'), pointer;
+        a, button, .desktop-icon, .planet, .spin-btn, [onclick], .site-title-link,
+        a:hover, a:active, a:focus, button:hover, button:active, button:focus {
+            cursor: url('images/cursor/pinkcursorpointer_32.png'), pointer;
         }
 
         /* ===== BASE STYLES ===== */
@@ -98,7 +99,7 @@
                 radial-gradient(1px 1px at 65% 70%, white 100%, transparent),
                 radial-gradient(1px 1px at 80% 90%, rgba(255,255,255,0.6) 100%, transparent),
                 radial-gradient(1px 1px at 95% 40%, white 100%, transparent),
-                radial-gradient(2px 2px at 5% 90%, rgba(0, 255, 136, 0.8) 100%, transparent),
+                radial-gradient(2px 2px at 5% 90%, rgba(126, 232, 215, 0.8) 100%, transparent),
                 radial-gradient(2px 2px at 92% 8%, rgba(255, 0, 255, 0.8) 100%, transparent),
                 radial-gradient(1px 1px at 45% 30%, rgba(0, 255, 255, 0.7) 100%, transparent);
             background-size: 100% 100%;
@@ -187,11 +188,23 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 40vh;
-            padding: calc(20vh + 120px) 0 20vh 0;
+            gap: 8vh;
+            padding: calc(2vh + 120px) 0 10vh 0;
         }
 
         /* ===== SECTION CONTAINERS ===== */
+        .planet-row {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 40px;
+            flex-wrap: wrap;
+        }
+
+        .planet-row .planet-section {
+            max-width: 300px;
+        }
+
         .planet-section {
             display: flex;
             flex-direction: column;
@@ -210,7 +223,7 @@
             border-radius: 12px;
             backdrop-filter: blur(10px);
             -webkit-backdrop-filter: blur(10px);
-            box-shadow: 0 0 20px rgba(0, 255, 136, 0.1);
+            box-shadow: 0 0 20px rgba(126, 232, 215, 0.1);
             overflow: visible;
         }
 
@@ -474,27 +487,33 @@
 
         /* ===== SLOTS POPUP ===== */
         .slots-popup {
-            position: absolute;
+            position: fixed;
             background: var(--window-bg);
             border: 3px solid var(--window-border);
             border-radius: 12px;
             padding: 20px;
-            box-shadow: 0 0 40px rgba(0, 255, 136, 0.3), 8px 8px 0 rgba(0, 0, 0, 0.3);
+            box-shadow: 0 0 40px rgba(126, 232, 215, 0.3), 8px 8px 0 rgba(0, 0, 0, 0.3);
             z-index: 500;
             display: none;
             right: 50px;
-            top: 200px;
+            top: 150px;
             user-select: none;
+            max-height: 90vh;
+            overflow: hidden;
         }
 
         .slots-popup.active {
             display: block;
         }
 
+        .slots-popup::-webkit-scrollbar {
+            display: none;
+        }
+
         .slots-popup-close {
             position: absolute;
-            top: -12px;
-            right: -12px;
+            top: 8px;
+            right: 8px;
             width: 30px;
             height: 30px;
             background: #ff4444;
@@ -508,6 +527,7 @@
             justify-content: center;
             box-shadow: 0 2px 5px rgba(0,0,0,0.3);
             transition: all 0.2s;
+            z-index: 10;
         }
 
         .slots-popup-close:hover {
@@ -517,7 +537,7 @@
 
         /* ===== iPOD STYLES ===== */
         .ipod {
-            position: absolute;
+            position: fixed;
             width: 200px;
             height: 340px;
             background: var(--ipod-body);
@@ -529,8 +549,9 @@
             z-index: 500;
             display: none;
             left: 50px;
-            top: 200px;
+            top: 150px;
             user-select: none;
+            max-height: 90vh;
         }
 
         .ipod.active {
@@ -544,7 +565,7 @@
             border-radius: 8px;
             border: 3px solid #333;
             padding: 10px;
-            color: #00ff88;
+            color: #7EE8D7;
             font-size: 10px;
             overflow: hidden;
         }
@@ -605,7 +626,7 @@
         .ipod-progress-bar {
             height: 100%;
             width: 0%;
-            background: #00ff88;
+            background: #7EE8D7;
             transition: width 0.5s linear;
         }
 
@@ -757,8 +778,8 @@
         }
 
         .spin-btn {
-            background: linear-gradient(180deg, var(--accent-primary), var(--accent-secondary));
-            color: #fff;
+            background: var(--accent-primary);
+            color: var(--bg-primary);
             border: 3px solid var(--accent-tertiary);
             padding: 15px 40px;
             font-family: inherit;
@@ -828,7 +849,11 @@
             gap: 10px;
             padding: 10px 20px;
             z-index: 1000;
-            box-shadow: 0 4px 30px rgba(0, 255, 136, 0.2);
+            box-shadow: 0 4px 30px rgba(126, 232, 215, 0.2);
+        }
+
+        .site-title-link {
+            text-decoration: none;
         }
 
         .site-title {
@@ -862,7 +887,7 @@
             color: var(--accent-primary);
             border-color: var(--accent-primary);
             text-shadow: 0 0 10px var(--accent-primary);
-            box-shadow: 0 0 15px rgba(0, 255, 136, 0.3);
+            box-shadow: 0 0 15px rgba(126, 232, 215, 0.3);
         }
 
         /* ===== SCROLLBAR ===== */
@@ -902,8 +927,40 @@
             }
 
             .icons-grid {
-                padding-top: calc(15vh + 120px);
-                gap: 30vh;
+                padding-top: calc(2vh + 120px);
+                gap: 6vh;
+            }
+
+            .planet-row {
+                flex-direction: column;
+                align-items: center;
+                gap: 6vh;
+            }
+
+            .planet-row .planet-section {
+                max-width: 100%;
+            }
+
+            /* Reorder first row on mobile: About first, then iPod, then Slots */
+            #about {
+                order: 1;
+                flex-direction: column-reverse;
+            }
+
+            #about .section-content {
+                margin-top: 0;
+            }
+
+            #about .desktop-icon {
+                margin-top: 35px;
+            }
+
+            #ipod-section {
+                order: 2;
+            }
+
+            #slots {
+                order: 3;
             }
 
             .planet-section {
@@ -936,8 +993,14 @@
             }
 
             .icons-grid {
-                gap: 20vh;
-                padding-top: calc(15vh + 130px);
+                gap: 2vh;
+                padding-top: calc(130px);
+            }
+
+            .planet-row {
+                flex-direction: column;
+                align-items: center;
+                gap: 2vh;
             }
 
             .planet {
@@ -970,11 +1033,77 @@
                 padding: 10px 20px;
                 font-size: 12px;
             }
+
+            /* Mobile iPod and Slots */
+            .ipod {
+                width: 160px;
+                height: 280px;
+                padding: 10px;
+                left: 10px;
+                top: 130px;
+            }
+
+            .ipod-screen {
+                height: 100px;
+                padding: 8px;
+                font-size: 9px;
+            }
+
+            .ipod-wheel {
+                width: 110px;
+                height: 110px;
+                margin-top: 10px;
+            }
+
+            .ipod-wheel-center {
+                width: 40px;
+                height: 40px;
+            }
+
+            .ipod-wheel-btn {
+                font-size: 8px;
+                padding: 5px;
+            }
+
+            .slots-popup {
+                right: 10px;
+                left: 10px;
+                top: 130px;
+                padding: 15px;
+            }
+
+            .slots-title {
+                font-size: 18px;
+                margin-bottom: 10px;
+            }
+
+            .slot-reel {
+                width: 45px;
+                height: 60px;
+                font-size: 30px;
+            }
+
+            .slots-points {
+                font-size: 16px;
+            }
+
+            .slots-message {
+                font-size: 14px;
+            }
+
+            .spin-btn {
+                padding: 10px 25px;
+                font-size: 14px;
+            }
+
+            .slots-stats {
+                font-size: 9px;
+            }
         }
 
         @media (max-width: 500px) {
             .icons-grid {
-                gap: 15vh;
+                gap: 4vh;
             }
 
             .planet {
@@ -988,17 +1117,15 @@
 <body>
     <!-- Fixed Header -->
     <header class="site-header">
-        <h1 class="site-title">Ⳑⲁⳙⲅⲉⲛⳕⳏ⳽ⳙⲙ</h1>
+        <a href="index.html" class="site-title-link"><h1 class="site-title">Ⳑⲁⳙⲅⲉⲛⳕⳏ⳽ⳙⲙ</h1></a>
         <nav class="site-nav">
             <a href="#about">About</a>
-            <a href="#ipod-section">iPod</a>
-            <a href="#gallery">Gallery</a>
-            <a href="#blog">Blog</a>
-            <a href="#slots">Slots</a>
-            <a href="#gym">Gym Progress</a>
-            <a href="#booking">Book Me</a>
-            <a href="#links">Links</a>
-            <a href="#guestbook">Guestbook</a>
+            <a href="gallery.html">Gallery</a>
+            <a href="blog.html">Blog</a>
+            <a href="gym.html">Gym Progress</a>
+            <a href="booking.html">Book Me</a>
+            <a href="links.html">Links</a>
+            <a href="guestbook.html">Guestbook</a>
         </nav>
     </header>
 
@@ -1011,121 +1138,85 @@
         <!-- Desktop Icons Area -->
         <div class="desktop-main">
             <div class="icons-grid">
-                <!-- About Section -->
-                <section id="about" class="planet-section">
-                    <div class="desktop-icon icon-about">
-                        <div class="planet planet-about"></div>
-                        <span class="label">About</span>
-                    </div>
-                    <div class="section-content">
-                        <h2>Welcome to My Universe</h2>
-                        <p>I'm Lauren - a creative explorer navigating the digital cosmos. This is my corner of the internet where art, music, and code collide.</p>
-                        <p>Feel free to explore the planets and discover what lies within each world.</p>
-                    </div>
-                </section>
+                <!-- Top Row: iPod, About, Slots -->
+                <div class="planet-row">
+                    <!-- iPod Section -->
+                    <section id="ipod-section" class="planet-section">
+                        <div class="desktop-icon icon-ipod" onclick="toggleIpod()">
+                            <div class="planet planet-ipod"></div>
+                            <span class="label">iPod</span>
+                        </div>
+                    </section>
 
-                <!-- iPod Section -->
-                <section id="ipod-section" class="planet-section">
-                    <div class="desktop-icon icon-ipod" onclick="toggleIpod()">
-                        <div class="planet planet-ipod"></div>
-                        <span class="label">iPod</span>
-                    </div>
-                    <div class="section-content">
-                        <h2>Music Player</h2>
-                        <p>Click the planet to open my retro iPod music player. Listen to some tunes while you explore!</p>
-                        <p>Drag it around, skip tracks, and vibe out.</p>
-                    </div>
-                </section>
+                    <!-- About Section -->
+                    <section id="about" class="planet-section">
+                        <div class="desktop-icon icon-about">
+                            <div class="planet planet-about"></div>
+                            <span class="label">About</span>
+                        </div>
+                        <div class="section-content">
+                            <h2>Welcome</h2>
+                            <p>Hello world, I'm Laurenipsum aka Ltomlee. I like to paint, code, play video games, produce music in Ableton, and DJ! </p>
+                            <p>Explore the planets and discover what lies within each of my worlds.</p>
+                        </div>
+                    </section>
 
-                <!-- Gallery Section -->
-                <section id="gallery" class="planet-section">
-                    <div class="desktop-icon icon-gallery">
-                        <div class="planet planet-gallery"></div>
-                        <span class="label">Gallery</span>
-                    </div>
-                    <div class="section-content">
-                        <h2>Art Gallery</h2>
-                        <p>A collection of my digital art, illustrations, and creative experiments. Each piece tells a story from somewhere in the multiverse.</p>
-                        <a href="gallery.html" class="section-cta">View Gallery</a>
-                    </div>
-                </section>
+                    <!-- Slots Section -->
+                    <section id="slots" class="planet-section">
+                        <div class="desktop-icon icon-slots" onclick="toggleSlots()">
+                            <div class="planet planet-slots"></div>
+                            <span class="label">Slots</span>
+                        </div>
+                    </section>
+                </div>
 
-                <!-- Blog Section -->
-                <section id="blog" class="planet-section">
-                    <div class="desktop-icon icon-blog">
-                        <div class="planet planet-blog"></div>
-                        <span class="label">Blog</span>
-                    </div>
-                    <div class="section-content">
-                        <h2>Blog</h2>
-                        <p>Thoughts, tutorials, and transmissions from my creative journey. Updates on projects, life, and everything in between.</p>
-                        <a href="blog.html" class="section-cta">Read Posts</a>
-                    </div>
-                </section>
+                <!-- Row 2: Gallery, Blog, Gym -->
+                <div class="planet-row">
+                    <section id="gallery" class="planet-section">
+                        <a href="gallery.html" class="desktop-icon icon-gallery">
+                            <div class="planet planet-gallery"></div>
+                            <span class="label">Gallery</span>
+                        </a>
+                    </section>
 
-                <!-- Slots Section -->
-                <section id="slots" class="planet-section">
-                    <div class="desktop-icon icon-slots" onclick="toggleSlots()">
-                        <div class="planet planet-slots"></div>
-                        <span class="label">Slots</span>
-                    </div>
-                    <div class="section-content">
-                        <h2>Fruit Slots</h2>
-                        <p>Feeling lucky? Click the planet to play the slot machine! Win points and try for the jackpot. Your progress is saved automatically.</p>
-                    </div>
-                </section>
+                    <section id="blog" class="planet-section">
+                        <a href="blog.html" class="desktop-icon icon-blog">
+                            <div class="planet planet-blog"></div>
+                            <span class="label">Blog</span>
+                        </a>
+                    </section>
 
-                <!-- Gym Section -->
-                <section id="gym" class="planet-section">
-                    <div class="desktop-icon icon-gym">
-                        <div class="planet planet-gym"></div>
-                        <span class="label">Gym Progress</span>
-                    </div>
-                    <div class="section-content">
-                        <h2>Gym Progress</h2>
-                        <p>Tracking my fitness journey through the cosmos. Gains, goals, and growth - one rep at a time.</p>
-                        <a href="gym.html" class="section-cta">View Progress</a>
-                    </div>
-                </section>
+                    <section id="gym" class="planet-section">
+                        <a href="gym.html" class="desktop-icon icon-gym">
+                            <div class="planet planet-gym"></div>
+                            <span class="label">Gym Progress</span>
+                        </a>
+                    </section>
+                </div>
 
-                <!-- Booking Section -->
-                <section id="booking" class="planet-section">
-                    <div class="desktop-icon icon-booking">
-                        <div class="planet planet-booking"></div>
-                        <span class="label">Book Me</span>
-                    </div>
-                    <div class="section-content">
-                        <h2>Book Me</h2>
-                        <p>Interested in collaborating? Whether it's art, music, or creative projects - let's create something amazing together.</p>
-                        <a href="booking.html" class="section-cta">Get in Touch</a>
-                    </div>
-                </section>
+                <!-- Row 3: Booking, Links, Guestbook -->
+                <div class="planet-row">
+                    <section id="booking" class="planet-section">
+                        <a href="booking.html" class="desktop-icon icon-booking">
+                            <div class="planet planet-booking"></div>
+                            <span class="label">Book Me</span>
+                        </a>
+                    </section>
 
-                <!-- Links Section -->
-                <section id="links" class="planet-section">
-                    <div class="desktop-icon icon-links">
-                        <div class="planet planet-links"></div>
-                        <span class="label">Links</span>
-                    </div>
-                    <div class="section-content">
-                        <h2>Links</h2>
-                        <p>Find me across the digital universe. Social media, portfolio sites, and other corners of the web where I exist.</p>
-                        <a href="links.html" class="section-cta">All Links</a>
-                    </div>
-                </section>
+                    <section id="links" class="planet-section">
+                        <a href="links.html" class="desktop-icon icon-links">
+                            <div class="planet planet-links"></div>
+                            <span class="label">Links</span>
+                        </a>
+                    </section>
 
-                <!-- Guestbook Section -->
-                <section id="guestbook" class="planet-section">
-                    <div class="desktop-icon icon-guestbook">
-                        <div class="planet planet-guestbook"></div>
-                        <span class="label">Guestbook</span>
-                    </div>
-                    <div class="section-content">
-                        <h2>Guestbook</h2>
-                        <p>Leave your mark! Sign the guestbook and say hello. I love hearing from visitors who stumble upon this little corner of space.</p>
-                        <a href="guestbook.html" class="section-cta">Sign Guestbook</a>
-                    </div>
-                </section>
+                    <section id="guestbook" class="planet-section">
+                        <a href="guestbook.html" class="desktop-icon icon-guestbook">
+                            <div class="planet planet-guestbook"></div>
+                            <span class="label">Guestbook</span>
+                        </a>
+                    </section>
+                </div>
             </div>
         </div>
     </div>
@@ -1205,8 +1296,8 @@
         function toggleSlots() {
             const isActive = slotsElement.classList.toggle('active');
             if (isActive) {
-                // Position relative to current scroll
-                slotsElement.style.top = (window.scrollY + 200) + 'px';
+                // Reset to default position (fixed)
+                slotsElement.style.top = '150px';
                 slotsElement.style.left = 'auto';
                 slotsElement.style.right = '50px';
             }
@@ -1229,10 +1320,13 @@
             const clientX = e.touches ? e.touches[0].clientX : e.clientX;
             const clientY = e.touches ? e.touches[0].clientY : e.clientY;
             const x = clientX - slotsDragOffset.x;
-            const y = clientY - slotsDragOffset.y + window.scrollY;
-            slotsElement.style.left = Math.max(0, x) + 'px';
+            const y = clientY - slotsDragOffset.y;
+            // Constrain within viewport
+            const maxX = window.innerWidth - slotsElement.offsetWidth;
+            const maxY = window.innerHeight - slotsElement.offsetHeight;
+            slotsElement.style.left = Math.min(Math.max(0, x), maxX) + 'px';
             slotsElement.style.right = 'auto';
-            slotsElement.style.top = Math.max(0, y) + 'px';
+            slotsElement.style.top = Math.min(Math.max(0, y), maxY) + 'px';
             if (e.touches) e.preventDefault();
         }
 
@@ -1391,8 +1485,8 @@
         function toggleIpod() {
             const isActive = ipodElement.classList.toggle('active');
             if (isActive) {
-                // Position relative to current scroll
-                ipodElement.style.top = (window.scrollY + 200) + 'px';
+                // Reset to default position (fixed)
+                ipodElement.style.top = '150px';
                 ipodElement.style.left = '50px';
             }
             // Pause audio when closing iPod
@@ -1506,9 +1600,12 @@
             const clientX = e.touches ? e.touches[0].clientX : e.clientX;
             const clientY = e.touches ? e.touches[0].clientY : e.clientY;
             const x = clientX - dragOffset.x;
-            const y = clientY - dragOffset.y + window.scrollY;
-            ipodElement.style.left = Math.max(0, x) + 'px';
-            ipodElement.style.top = Math.max(0, y) + 'px';
+            const y = clientY - dragOffset.y;
+            // Constrain within viewport
+            const maxX = window.innerWidth - ipodElement.offsetWidth;
+            const maxY = window.innerHeight - ipodElement.offsetHeight;
+            ipodElement.style.left = Math.min(Math.max(0, x), maxX) + 'px';
+            ipodElement.style.top = Math.min(Math.max(0, y), maxY) + 'px';
             if (e.touches) e.preventDefault();
         }
 
